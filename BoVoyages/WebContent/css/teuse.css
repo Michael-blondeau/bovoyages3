@@ -1,0 +1,57 @@
+@CHARSET "ISO-8859-1";
+
+body{
+	margin-left: 5%;
+    margin-right: 5%;
+	background-color: rgb(230, 247, 255);
+}
+
+header{
+	background: linear-gradient(to right, rgb(0, 107, 179), rgb(230, 247, 255));
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    height: 150px;
+    padding-top: 20px;
+}
+
+.t-align-r{
+	text-align: right;
+}
+
+.pull-r{
+	   float: right;
+}
+.identite{
+	font-size: 20px;
+	font-weight: bold;	
+}
+
+.panel{
+	width: 70%;
+    margin: auto;
+}
+
+.panel-body{
+	width: 80%;
+    margin: auto;
+}
+
+.panel-body > .row{
+	margin-bottom: 1em;
+}
+
+/* .panel > ul > li{ */
+/* 	margin: 20px; */
+/* } */
+
+/* .panel-heading{ */
+/* 	font-size: 25px;	 */
+/* } */
+
+.form-group{
+	width: 50% ! important;
+}
+
+fieldset{
+	margin: 20px
+}
