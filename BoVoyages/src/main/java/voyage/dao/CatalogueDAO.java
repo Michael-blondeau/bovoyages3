@@ -32,6 +32,10 @@ public class CatalogueDAO implements ICatalogueDAO {
 	@PersistenceContext(unitName="bovoyage") private EntityManager em;
 	private UserTransaction ut;
 
+	public CatalogueDAO() {
+		super();
+	}
+
 	@Override
 	public void saveOrUpdate(Destination destination) throws SQLException, NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
 		ut.begin();

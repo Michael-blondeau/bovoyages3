@@ -2,32 +2,21 @@ package voyage.dao;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import voyage.entities.Destination;
 
+@Ignore("Impossible de tester le DAO sans l'injection depuis le serveur Java EE")
 public class CatalogueDAOTest {
-	private DAO dao;
-	
-	public CatalogueDAOTest() throws ClassNotFoundException {
-		dao = new DAO("com.mysql.jdbc.Driver",
-				  "jdbc:mysql://localhost:3306/bovoyagetest?useSSL=false",
-				  "root", "foobar");
-	}
-	
-	@Test
-	public void testCatalogueDAO() throws ClassNotFoundException, IOException {
-		CatalogueDAO catalogueDAO = new CatalogueDAO(dao);
-		assertNotNull(catalogueDAO.getDao());
-	}
+
 
 	@Test
 	public void testCreate() throws ClassNotFoundException, SQLException {
-		CatalogueDAO catalogueDAO = new CatalogueDAO(dao);
+		CatalogueDAO catalogueDAO = new CatalogueDAO();
 		Destination destination = new Destination("Continent", "Pays", "Region", "Description longue");
 		catalogueDAO.saveOrUpdate(destination);
 		assertNotEquals(0, destination.getId());
@@ -36,7 +25,7 @@ public class CatalogueDAOTest {
 
 	@Test
 	public void testUpdate() throws ClassNotFoundException, SQLException {
-		CatalogueDAO catalogueDAO = new CatalogueDAO(dao);
+		CatalogueDAO catalogueDAO = new CatalogueDAO();
 		Destination destination = new Destination("Continent", "Pays", "Region", "Description longue");
 		catalogueDAO.saveOrUpdate(destination);
 		destination.setContinent("Europe");
@@ -48,8 +37,8 @@ public class CatalogueDAOTest {
 
 	@Test
 	public void testDelete() throws ClassNotFoundException, SQLException {
+		CatalogueDAO catalogueDAO = new CatalogueDAO();
 		Destination destination = new Destination("Continent", "Pays", "Region", "Description longue");
-		CatalogueDAO catalogueDAO = new CatalogueDAO(dao);
 		catalogueDAO.saveOrUpdate(destination);
 		catalogueDAO.delete(destination);
 		assertEquals(0, destination.getId());
@@ -58,7 +47,7 @@ public class CatalogueDAOTest {
 
 	@Test
 	public void testGetAllDestinations() throws ClassNotFoundException, SQLException {
-		CatalogueDAO catalogueDAO = new CatalogueDAO(dao);
+		CatalogueDAO catalogueDAO = new CatalogueDAO();
 		List<Destination> dests = catalogueDAO.getAllDestinations();
 		for (Destination d : dests){
 			catalogueDAO.delete(d);
@@ -76,7 +65,7 @@ public class CatalogueDAOTest {
 
 	@Test
 	public void testGetDestinationByPays() throws ClassNotFoundException, SQLException {
-		CatalogueDAO catalogueDAO = new CatalogueDAO(dao);
+		CatalogueDAO catalogueDAO = new CatalogueDAO();
 		
 		List<Destination> destinations = catalogueDAO.getAllDestinations();
 		for (Destination d : destinations){
@@ -100,7 +89,7 @@ public class CatalogueDAOTest {
 	@Test
 	public void testGetDestinationById() throws ClassNotFoundException, SQLException {
 		Destination destination = new Destination("Continent", "Pays", "Region", "Description longue");
-		CatalogueDAO catalogueDAO = new CatalogueDAO(dao);
+		CatalogueDAO catalogueDAO = new CatalogueDAO();
 		catalogueDAO.saveOrUpdate(destination);
 		int id = destination.getId();
 		Destination dest = catalogueDAO.getDestinationById(id);
@@ -110,7 +99,7 @@ public class CatalogueDAOTest {
 	
 	@Test
 	public void getAllUniquePays() throws SQLException{
-		CatalogueDAO catalogueDAO = new CatalogueDAO(dao);
+		CatalogueDAO catalogueDAO = new CatalogueDAO();
 		List<Destination> destinations = catalogueDAO.getAllDestinations();
 		for (Destination d : destinations){
 			catalogueDAO.delete(d);
