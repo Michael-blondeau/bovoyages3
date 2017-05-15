@@ -1,29 +1,25 @@
 package voyage.services;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.sql.DataSource;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
+import javax.inject.Inject;
 
 import voyage.dao.CatalogueDAO;
-import voyage.dao.DAO;
 import voyage.entities.Destination;
 
+@ManagedBean(name="service")
+@SessionScoped
+public class CatalogueService implements ICatalogueService, Serializable {
 
-public class CatalogueService implements ICatalogueService {
-	private DAO dao;
+	private static final long serialVersionUID = -465153231869986884L;
+
+	@Inject
 	private CatalogueDAO catalogueDAO;
-	private DataSource ds;
 
-	public CatalogueService(DataSource ds) {
-		this.ds = ds;
-		dao = new DAO(ds);
-		catalogueDAO = new CatalogueDAO(dao);
-	}
-
-	/* (non-Javadoc)
-	 * @see voyage.services.ICatalogueService#getAllDestinations()
-	 */
 	@Override
 	public List<Destination> getAllDestinations() {
 		List<Destination> destinations = null;
@@ -35,9 +31,6 @@ public class CatalogueService implements ICatalogueService {
 		return destinations;
 	}
 	
-	/* (non-Javadoc)
-	 * @see voyage.services.ICatalogueService#getDestinationsByPays(java.lang.String)
-	 */
 	@Override
 	public List<Destination> getDestinationsByPays(String pays) {
 		List<Destination> destinations = null;
@@ -49,21 +42,15 @@ public class CatalogueService implements ICatalogueService {
 		return destinations;
 	}
 	
-	/* (non-Javadoc)
-	 * @see voyage.services.ICatalogueService#addDestination(voyage.entities.Destination)
-	 */
 	@Override
 	public void addDestination(Destination d) {
 		try {
-			catalogueDAO.create(d);
+			catalogueDAO.saveOrUpdate(d);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see voyage.services.ICatalogueService#updateDestination(voyage.entities.Destination)
-	 */
 	@Override
 	public void updateDestination(Destination d){
 		try {
@@ -72,10 +59,7 @@ public class CatalogueService implements ICatalogueService {
 			e.printStackTrace();
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see voyage.services.ICatalogueService#deleteDestination(voyage.entities.Destination)
-	 */
+
 	@Override
 	public void deleteDestination(Destination d){
 		try {
@@ -85,9 +69,6 @@ public class CatalogueService implements ICatalogueService {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see voyage.services.ICatalogueService#getDestinationById(voyage.entities.Destination)
-	 */
 	@Override
 	public Destination getDestinationById(int id) {
 		Destination d = null;
