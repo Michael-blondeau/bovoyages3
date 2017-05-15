@@ -26,7 +26,7 @@ header{
 	font-weight: bold;	
 }
 
-.panel{
+.ui-panel{
 	width: 70%;
     margin: auto;
 }
@@ -40,13 +40,6 @@ header{
 	margin-bottom: 1em;
 }
 
-/* .panel > ul > li{ */
-/* 	margin: 20px; */
-/* } */
-
-/* .panel-heading{ */
-/* 	font-size: 25px;	 */
-/* } */
 
 .form-group{
 	width: 50% ! important;

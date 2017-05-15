@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Liste des destinations</title>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+
+		<ui:define name="content">
+			<f:view>
+				<p:panel header="Liste des destinations" id="destinations">
+					<h:form>
+						<ul>
+							<c:forEach items="#{service.allDestinations}" var="destination">
+								<li>
+									<p:commandLink ajax="false">
+										<!-- faire un commandButton avec un appel à une méthode de Bean pour demander l'édition de la destination -->
+										<h:outputText value="#{destination.region}" />
+									</p:commandLink>
+
+									<p:button value="Supprimer" icon="ui-icon-trash">
+										<f:param name="destinationId" value="#{destination.id}" />
+										<!-- faire un commandButton avec un appel à une méthode de Bean pour demander la suppression de la destination (en Ajax ?) -->
+									</p:button>
+								</li>
+								${destination.description }
+							</c:forEach>
+						</ul>
+					</h:form>
+				</p:panel>
+			</f:view>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
