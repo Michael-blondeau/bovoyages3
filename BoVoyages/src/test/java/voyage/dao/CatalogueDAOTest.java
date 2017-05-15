@@ -2,14 +2,15 @@ package voyage.dao;
 
 import static org.junit.Assert.*;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import voyage.entities.Destination;
 
+@Ignore("Impossible de tester le DAO sans l'injection depuis le serveur Java EE")
 public class CatalogueDAOTest {
 
 

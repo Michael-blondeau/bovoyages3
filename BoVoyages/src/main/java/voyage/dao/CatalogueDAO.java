@@ -25,6 +25,10 @@ public class CatalogueDAO implements ICatalogueDAO {
 		this.dao = dao;
 	}
 
+	public CatalogueDAO() {
+		super();
+	}
+
 	@Override
 	public void saveOrUpdate(Destination destination) throws SQLException {
 		if(destination.getId() == 0){
