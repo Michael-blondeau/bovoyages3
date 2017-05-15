@@ -1,5 +1,7 @@
 package voyage.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,7 +35,10 @@ import javax.persistence.Table;
 	@NamedQuery(name = "destinationByPays", query="SELECT d FROM Destination d WHERE d.pays = :p"),
 	@NamedQuery(name = "allUniquePays",  query="SELECT DISTINCT d.pays FROM Destination d")
 })
-public class Destination {
+public class Destination implements Serializable {
+
+	private static final long serialVersionUID = -267734845636580046L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="pk_destination")

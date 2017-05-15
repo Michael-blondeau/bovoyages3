@@ -1,7 +1,6 @@
 package voyage.services;
 
 import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -35,23 +34,13 @@ public class CatalogueService implements ICatalogueService, Serializable {
 
 	@Override
 	public List<Destination> getAllDestinations() {
-		List<Destination> destinations = null;
-		try {
-			destinations = catalogueDAO.getAllDestinations();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		List<Destination> destinations = catalogueDAO.getAllDestinations();
 		return destinations;
 	}
 
 	@Override
 	public List<Destination> getDestinationsByPays(String pays) {
-		List<Destination> destinations = null;
-		try {
-			destinations = catalogueDAO.getDestinationByPays(pays);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		List<Destination> destinations = catalogueDAO.getDestinationByPays(pays);
 		return destinations;
 	}
 
@@ -59,7 +48,8 @@ public class CatalogueService implements ICatalogueService, Serializable {
 	public void addDestination(Destination d) {
 		try {
 			catalogueDAO.saveOrUpdate(d);
-		} catch (SQLException e) {
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -68,7 +58,7 @@ public class CatalogueService implements ICatalogueService, Serializable {
 	public void updateDestination(Destination d) {
 		try {
 			catalogueDAO.update(d);
-		} catch (SQLException e) {
+		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -77,30 +67,20 @@ public class CatalogueService implements ICatalogueService, Serializable {
 	public void deleteDestination(Destination d) {
 		try {
 			catalogueDAO.delete(d);
-		} catch (SQLException e) {
+		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
 	public Destination getDestinationById(int id) {
-		Destination d = null;
-		try {
-			d = catalogueDAO.getDestinationById(id);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		Destination d = catalogueDAO.getDestinationById(id);
 		return d;
 	}
 
 	@Override
 	public List<String> getAllUniquePays() {
-		List<String> liste = null;
-		try {
-			liste = catalogueDAO.getAllUniquePays();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		List<String> liste = catalogueDAO.getAllUniquePays();
 		return liste;
 	}
 }

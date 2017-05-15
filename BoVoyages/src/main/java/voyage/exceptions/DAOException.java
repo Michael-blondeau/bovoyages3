@@ -7,6 +7,7 @@ package voyage.exceptions;
  * @version 3.0
  */
 public class DAOException extends Exception {
+	private static final long serialVersionUID = -4131743238757727727L;
 
 	public DAOException() {
 	}
