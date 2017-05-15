@@ -3,6 +3,11 @@ package voyage.beans;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+
+@ManagedBean(name = "dates")
+@ViewScoped
 public class DatesVoyagesBean implements Serializable {
 	private static final long serialVersionUID = 357912718931065193L;
 

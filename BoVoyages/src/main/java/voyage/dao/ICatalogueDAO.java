@@ -10,6 +10,7 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
 import voyage.entities.Destination;
+import voyage.exceptions.DAOException;
 
 /**
  * Cette interface fournit les méthodes CRUD pour la sauvegarde des Destinations en base de données.
@@ -30,16 +31,9 @@ public interface ICatalogueDAO {
 	 * de mettre à jour l'identifiant unique (id) de la destination par appel de la méthode 
 	 * {@link Destination#setId(int)}.
 	 * @param destination La destination à sauvegarder.
-	 * @throws SQLException Si la base de données n'est pas accessible.
-	 * @throws SystemException 
-	 * @throws NotSupportedException 
-	 * @throws HeuristicRollbackException 
-	 * @throws HeuristicMixedException 
-	 * @throws RollbackException 
-	 * @throws IllegalStateException 
-	 * @throws SecurityException 
+	 * @throws DAOException 
 	 */
-	void saveOrUpdate(Destination destination) throws SQLException, NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException;
+	void saveOrUpdate(Destination destination) throws DAOException;
 	
 	/**
 	 * Cette méthode permet de mettre à jour une destination en base de données.
@@ -57,7 +51,7 @@ public interface ICatalogueDAO {
 	 * @throws IllegalStateException 
 	 * @throws SecurityException 
 	 */
-	void update(Destination destination) throws SQLException, SecurityException, IllegalStateException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException;
+	void update(Destination destination) throws DAOException;
 	
 	/**
 	 * Cette méthode permet de supprimer une destination en base de données.
@@ -74,7 +68,7 @@ public interface ICatalogueDAO {
 	 * @throws IllegalStateException 
 	 * @throws SecurityException 
 	 */
-	void delete(Destination destination) throws SQLException, SecurityException, IllegalStateException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException;
+	void delete(Destination destination) throws DAOException;
 	
 	/**
 	 * Cette méthode permet de récupérer la liste de toutes les destinations en base de données.
@@ -85,7 +79,7 @@ public interface ICatalogueDAO {
 	 * @return List<Destination> Une liste de destinations, ou {@code null} si rien n'a été trouvé.
 	 * @throws SQLException Si la base de données n'est pas accessible.
 	 */
-	List<Destination> getAllDestinations() throws SQLException;
+	List<Destination> getAllDestinations() throws DAOException;
 	
 	/**
 	 * Cette méthode permet de récupérer la liste de toutes les destinations en base de données 
@@ -98,7 +92,7 @@ public interface ICatalogueDAO {
 	 * @return List<Destination> Une liste de destinations, ou {@code null} si rien n'a été trouvé.
 	 * @throws SQLException Si la base de données n'est pas accessible.
 	 */
-	List<Destination> getDestinationByPays(String pays) throws SQLException;
+	List<Destination> getDestinationByPays(String pays) throws DAOException;
 	
 	/**
 	 * Cette méthode permet de récupérer une destination en base de données
@@ -109,7 +103,7 @@ public interface ICatalogueDAO {
 	 * @return La destination correspondante à la recherche, ou {@code null} si rien n'a été trouvé.
 	 * @throws SQLException Si la base de données n'est pas accessible.
 	 */
-	Destination getDestinationById(int id) throws SQLException;
+	Destination getDestinationById(int id) throws DAOException;
 	
 	/**
 	 * Cette méthode permet de récupérer la liste des pays (sans doublons).
@@ -117,5 +111,5 @@ public interface ICatalogueDAO {
 	 * @return List<String> Une liste de tous les pays enregistrés en base de données.
 	 * @throws SQLException Si la base de données n'est pas accessible.
 	 */
-	List<String> getAllUniquePays() throws SQLException;
+	List<String> getAllUniquePays() throws DAOException;
 }

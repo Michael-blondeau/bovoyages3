@@ -1,14 +1,12 @@
 package voyage.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.annotation.Resource;
+import javax.enterprise.context.Dependent;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -20,6 +18,7 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import voyage.entities.Destination;
+import voyage.exceptions.DAOException;
 
 /**
  * Implémentation de l'interface {@link ICatalogueDAO}.
@@ -27,49 +26,67 @@ import voyage.entities.Destination;
  * @author Adminl
  * @version 2.0
  */
-public class CatalogueDAO implements ICatalogueDAO {
+@Named
+@Dependent
+public class CatalogueDAO implements ICatalogueDAO, Serializable {
+	
+	private static final long serialVersionUID = 4750916274788982440L;
+
 	private static final Logger LOG = Logger.getLogger(CatalogueDAO.class.getCanonicalName());
-	@PersistenceContext(unitName="bovoyage") private EntityManager em;
+
+	@PersistenceContext(unitName = "bovoyage")
+	private EntityManager em;
+	
+	@Resource
 	private UserTransaction ut;
 
-	public CatalogueDAO() {
-		super();
-	}
+	public CatalogueDAO() {	}
 
 	@Override
-	public void saveOrUpdate(Destination destination) throws SQLException, NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
-		ut.begin();
-		if(destination.getId() == 0){
-			em.persist(destination);
-		}else{
-			em.merge(destination);
-			LOG.info("La destination existe déjà ! Mise à jour de la destination correspondate.");
+	public void saveOrUpdate(Destination destination) throws DAOException {
+		try {
+			ut.begin();
+			if (destination.getId() == 0) {
+				em.persist(destination);
+			} else {
+				em.merge(destination);
+				LOG.info("La destination existe déjà ! Mise à jour de la destination correspondate.");
+			}
+			ut.commit();
+		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			throw new DAOException("Erreur lors de l'enregistrement de la destination", e);
 		}
-		ut.commit();
 	}
 
 	@Override
-	public void delete(Destination destination) throws SQLException, SecurityException, IllegalStateException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
-		if(destination.getId() != 0){
+	public void delete(Destination destination) throws DAOException {
+		if (destination.getId() != 0) {
 			delete(destination.getId());
-		}else{
+		} else {
 			LOG.info("Impossible de supprimer la destination (n'existe pas).");
 		}
 	}
-	
-	private void delete(int id) throws NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
-		ut.begin();
-		Destination d = em.find(Destination.class, id);
-		em.remove(d);
-		ut.commit();
+
+	private void delete(int id) throws DAOException {
+		try {
+			ut.begin();
+			Destination d = em.find(Destination.class, id);
+			em.remove(d);
+			ut.commit();
+		} catch (SecurityException | IllegalStateException | NotSupportedException | SystemException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			throw new DAOException("Erreur lors de la suppression de la destination", e);
+		}
 	}
 
-	public List<Destination> getAllDestinations(){
+	public List<Destination> getAllDestinations() {
 		Query query = em.createNamedQuery("allDestinations");
-		return query.getResultList();
+		List<Destination> destinations = query.getResultList();
+		return destinations;
 	}
 
-	public List<Destination> getDestinationByPays(String pays){
+	public List<Destination> getDestinationByPays(String pays) {
 		Query query = em.createNamedQuery("destinationByPays");
 		query.setParameter("p", pays);
 		List<Destination> destinations = query.getResultList();
@@ -77,22 +94,21 @@ public class CatalogueDAO implements ICatalogueDAO {
 	}
 
 	@Override
-	public Destination getDestinationById(int id) throws SQLException {
+	public Destination getDestinationById(int id) {
 		Destination d = em.find(Destination.class, id);
 		return d;
 	}
 
 	@Override
-	public List<String> getAllUniquePays() throws SQLException {
+	public List<String> getAllUniquePays() {
 		Query query = em.createNamedQuery("allUniquePays");
 		List<String> payss = query.getResultList();
 		return payss;
 	}
 
 	@Override
-	public void update(Destination destination) throws SQLException, SecurityException, IllegalStateException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException {
+	public void update(Destination destination) throws DAOException {
 		saveOrUpdate(destination);
-		
 	}
 
 }
