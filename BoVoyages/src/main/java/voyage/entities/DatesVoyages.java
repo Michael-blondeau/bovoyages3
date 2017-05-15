@@ -29,6 +29,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name="dates_voyages")
 public class DatesVoyages implements Serializable {
+
+	private static final long serialVersionUID = 8983837795367625557L;
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="pk_date_voyage")
