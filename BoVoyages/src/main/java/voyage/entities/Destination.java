@@ -1,14 +1,19 @@
 package voyage.entities;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -47,6 +52,10 @@ public class Destination implements Serializable {
 	private String pays;
 	private String region;
 	private String description;
+	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
+	@JoinColumn(name="fk_destination")
+	private List<DatesVoyages> dates;
+
 
 	public Destination() {}
 
@@ -108,6 +117,14 @@ public class Destination implements Serializable {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public List<DatesVoyages> getDates() {
+		return dates;
+	}
+
+	public void setDates(List<DatesVoyages> dates) {
+		this.dates = dates;
 	}
 
 	@Override
