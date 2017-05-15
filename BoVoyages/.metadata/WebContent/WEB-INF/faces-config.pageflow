@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <pageflow:Pageflow xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14948528354030" configfile="/BoVoyages/WebContent/WEB-INF/faces-config.xml"/>
+=======
+<pageflow:Pageflow xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14948528535960" configfile="/BoVoyages/WebContent/WEB-INF/faces-config.xml"/>
+>>>>>>> branch 'maven' of https://github.com/plassalas/bovoyages3.git

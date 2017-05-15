@@ -49,7 +49,7 @@ public class DatesVoyagesTest {
 	public void testDateRetour() {
 		DatesVoyages dv = new DatesVoyages();
 		Date retour = new Date();
-		dv.setDateDepart(retour);
+		dv.setDateRetour(retour);
 		assertEquals(retour, dv.getDateRetour());
 	}
 
