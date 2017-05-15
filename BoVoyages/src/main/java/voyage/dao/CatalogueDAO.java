@@ -25,8 +25,12 @@ public class CatalogueDAO implements ICatalogueDAO {
 		this.dao = dao;
 	}
 
+	public CatalogueDAO() {
+		super();
+	}
+
 	@Override
-	public void create(Destination destination) throws SQLException {
+	public void saveOrUpdate(Destination destination) throws SQLException {
 		if(destination.getId() == 0){
 			Connection connection = dao.getConnection();
 			String sql = "INSERT INTO destinations (continent,pays,region,description) VALUES(?,?,?,?)";
@@ -62,7 +66,7 @@ public class CatalogueDAO implements ICatalogueDAO {
 			dao.close(connection);
 		} else {
 			LOG.info("La destination n'existe pas encore ! Création...");
-			create(destination);
+			saveOrUpdate(destination);
 		}
 
 	}

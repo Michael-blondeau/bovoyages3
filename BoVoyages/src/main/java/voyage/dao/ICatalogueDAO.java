@@ -26,14 +26,14 @@ public interface ICatalogueDAO {
 	 * @param destination La destination à sauvegarder.
 	 * @throws SQLException Si la base de données n'est pas accessible.
 	 */
-	void create(Destination destination) throws SQLException;
+	void saveOrUpdate(Destination destination) throws SQLException;
 	
 	/**
 	 * Cette méthode permet de mettre à jour une destination en base de données.
 	 * 
 	 * La méthode devrait vérifier si la destination possède un identifiant non nul. Si ce n'est
 	 * pas le cas, la destination devrait être enregistrée grâce à la méthode 
-	 * {@link ICatalogueDAO#create(Destination)}.
+	 * {@link ICatalogueDAO#saveOrUpdate(Destination)}.
 	 * @param destination La destination à mettre à jour.
 	 * @throws SQLException Si la base de données n'est pas accessible.
 	 */
