@@ -3,6 +3,12 @@ package voyage.dao;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
+
 import voyage.entities.Destination;
 
 /**
@@ -25,19 +31,33 @@ public interface ICatalogueDAO {
 	 * {@link Destination#setId(int)}.
 	 * @param destination La destination à sauvegarder.
 	 * @throws SQLException Si la base de données n'est pas accessible.
+	 * @throws SystemException 
+	 * @throws NotSupportedException 
+	 * @throws HeuristicRollbackException 
+	 * @throws HeuristicMixedException 
+	 * @throws RollbackException 
+	 * @throws IllegalStateException 
+	 * @throws SecurityException 
 	 */
-	void create(Destination destination) throws SQLException;
+	void saveOrUpdate(Destination destination) throws SQLException, NotSupportedException, SystemException, SecurityException, IllegalStateException, RollbackException, HeuristicMixedException, HeuristicRollbackException;
 	
 	/**
 	 * Cette méthode permet de mettre à jour une destination en base de données.
 	 * 
 	 * La méthode devrait vérifier si la destination possède un identifiant non nul. Si ce n'est
 	 * pas le cas, la destination devrait être enregistrée grâce à la méthode 
-	 * {@link ICatalogueDAO#create(Destination)}.
+	 * {@link ICatalogueDAO#saveOrUpdate(Destination)}.
 	 * @param destination La destination à mettre à jour.
 	 * @throws SQLException Si la base de données n'est pas accessible.
+	 * @throws HeuristicRollbackException 
+	 * @throws HeuristicMixedException 
+	 * @throws RollbackException 
+	 * @throws SystemException 
+	 * @throws NotSupportedException 
+	 * @throws IllegalStateException 
+	 * @throws SecurityException 
 	 */
-	void update(Destination destination) throws SQLException;
+	void update(Destination destination) throws SQLException, SecurityException, IllegalStateException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException;
 	
 	/**
 	 * Cette méthode permet de supprimer une destination en base de données.
@@ -46,8 +66,15 @@ public interface ICatalogueDAO {
 	 * pas le cas, rien ne se passe.
 	 * @param destination La destination à mettre à jour.
 	 * @throws SQLException Si la base de données n'est pas accessible.
+	 * @throws HeuristicRollbackException 
+	 * @throws HeuristicMixedException 
+	 * @throws RollbackException 
+	 * @throws SystemException 
+	 * @throws NotSupportedException 
+	 * @throws IllegalStateException 
+	 * @throws SecurityException 
 	 */
-	void delete(Destination destination) throws SQLException;
+	void delete(Destination destination) throws SQLException, SecurityException, IllegalStateException, NotSupportedException, SystemException, RollbackException, HeuristicMixedException, HeuristicRollbackException;
 	
 	/**
 	 * Cette méthode permet de récupérer la liste de toutes les destinations en base de données.

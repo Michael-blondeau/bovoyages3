@@ -1,5 +1,14 @@
 package voyage.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
+
 /**
  * <b>Destination est une classe représentant la destination d'un voyage.</b>
  * <p>
@@ -16,16 +25,25 @@ package voyage.entities;
  * @version 2.0
  *
  */
+
+@Entity
+@Table(name="destinations")
+@NamedQueries({
+	@NamedQuery(name = "allDestinations", query = "SELECT d FROM Destination d"),
+	@NamedQuery(name = "destinationByPays", query="SELECT d FROM Destination d WHERE d.pays = :p"),
+	@NamedQuery(name = "allUniquePays",  query="SELECT DISTINCT d.pays FROM Destination d")
+})
 public class Destination {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="pk_destination")
 	private int id;
 	private String continent;
 	private String pays;
 	private String region;
 	private String description;
 
-	public Destination() {
-		super();
-	}
+	public Destination() {}
 
 	public Destination(String continent, String pays, String region, String description) {
 		super();

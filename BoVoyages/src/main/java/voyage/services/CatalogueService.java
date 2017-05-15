@@ -55,7 +55,7 @@ public class CatalogueService implements ICatalogueService {
 	@Override
 	public void addDestination(Destination d) {
 		try {
-			catalogueDAO.create(d);
+			catalogueDAO.saveOrUpdate(d);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
