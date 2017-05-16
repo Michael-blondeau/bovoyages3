@@ -16,6 +16,8 @@ public interface ICatalogueService {
 
 	void addDestination(Destination d);
 
+	void saveOrUpdate(Destination d);
+	
 	void updateDestination(Destination d);
 
 	void deleteDestination(Destination d);

@@ -40,6 +40,13 @@ public class DestinationBean implements Serializable {
 		this.description = description;
 	}
 	
+	public String add(){
+		Destination destination = new Destination(continent, pays, region, description);
+		service.saveOrUpdate(destination);
+    stopConversation();
+		return "index?faces-redirect=true";
+  }
+
 	public String modifier(int id){
 		startConversation();
 		Destination d = service.getDestinationById(id);
