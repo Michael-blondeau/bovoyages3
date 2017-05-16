@@ -68,7 +68,7 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 		}
 	}
 
-	private void delete(int id) throws DAOException {
+	public void delete(int id) throws DAOException {
 		try {
 			ut.begin();
 			Destination d = em.find(Destination.class, id);

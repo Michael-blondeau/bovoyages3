@@ -19,5 +19,7 @@ public interface ICatalogueService {
 	void updateDestination(Destination d);
 
 	void deleteDestination(Destination d);
+	
+	void deleteDestination(int id);
 
 }

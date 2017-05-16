@@ -19,28 +19,30 @@
 				<p:panel header="Liste des destinations" id="destinations">
 					<h:form>
 
-						<c:forEach items="#{service.allDestinations}" var="destination">						
+						<c:forEach items="#{service.allDestinations}" var="d">						
 							<div class="ui-g">
 								<div class="ui-g-9">
-									<h:outputText styleClass="destinationTitre" value="#{destination.region}" />
+									<h:outputText styleClass="destinationTitre" value="#{d.region}" />
 								</div>
 								<div class="ui-g-3" style="text-align: right;">
 									<p:menuButton value="Options" >
-										<p:menuitem value="Modifier" icon="ui-icon-arrowrefresh-1-w" />
-										<p:menuitem value="Supprimer" icon="ui-icon-trash" />
+										<p:menuitem value="Modifier" icon="ui-icon-arrowrefresh-1-w" action="#{destination.modifier(d.id)}" ajax="false"/>
+										<p:menuitem value="Supprimer" icon="ui-icon-trash" action="#{service.deleteDestination(d.id)}" update="destinations"/>
 										<p:separator />
 										<p:menuitem value="Consulter les dates" />
 										<p:menuitem value="Ajouter une date" />
 									</p:menuButton>
 								</div>
 								<div class="ui-g-12">
-									<h:outputText value="#{destination.description}" />
+									<h:outputText value="#{d.description}" />
 								</div>
 							</div>
 						</c:forEach>
 
 					</h:form>
 				</p:panel>
+				
+				<p:button value="Retour" onclick="window.history.back();"></p:button>
 			</f:view>
 		</ui:define>
 
