@@ -8,6 +8,7 @@ import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
 
 import voyage.dao.CatalogueDAO;
+import voyage.entities.DatesVoyages;
 import voyage.entities.Destination;
 import voyage.exceptions.DAOException;
 
@@ -87,8 +88,9 @@ public class CatalogueService implements ICatalogueService, Serializable {
 	@Override
 	public void saveOrUpdate(Destination d) {
 		addDestination(d);
-  }	
+	}	
 
+	@Override
 	public void deleteDestination(int id) {
 		try {
 			catalogueDAO.delete(id);
@@ -96,5 +98,10 @@ public class CatalogueService implements ICatalogueService, Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public List<DatesVoyages> getAllDates(int id){
+		Destination d = getDestinationById(id);
+		return d.getDates();
 	}
 }
