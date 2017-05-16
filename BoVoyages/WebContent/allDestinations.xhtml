@@ -17,6 +17,7 @@
 		<ui:define name="content">
 			<f:view>
 			<f:event listener="#{destination.stopConversation}" type="preRenderView"></f:event>
+			<f:event listener="#{date.stopConversation}" type="preRenderView"></f:event>
 				<p:panel header="Liste des destinations" id="destinations">
 					<h:form>
 

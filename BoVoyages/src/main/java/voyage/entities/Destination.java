@@ -52,6 +52,7 @@ public class Destination implements Serializable {
 	private String pays;
 	private String region;
 	private String description;
+	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
 	@JoinColumn(name="fk_destination")
 	private List<DatesVoyages> dates;
