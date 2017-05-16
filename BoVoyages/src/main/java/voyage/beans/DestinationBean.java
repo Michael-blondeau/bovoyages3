@@ -6,6 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 
+import voyage.entities.Destination;
 import voyage.services.CatalogueService;
 
 @ManagedBean(name = "destination")
@@ -26,12 +27,17 @@ public class DestinationBean implements Serializable {
 	}
 
 	public DestinationBean(int id, String continent, String pays, String region, String description) {
-		super();
 		this.id = id;
 		this.continent = continent;
 		this.pays = pays;
 		this.region = region;
 		this.description = description;
+	}
+	
+	public String add(){
+		Destination destination = new Destination(continent, pays, region, description);
+		service.saveOrUpdate(destination);
+		return "index";
 	}
 
 	public int getId() {

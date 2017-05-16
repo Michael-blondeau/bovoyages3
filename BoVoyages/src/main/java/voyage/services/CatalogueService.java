@@ -83,4 +83,10 @@ public class CatalogueService implements ICatalogueService, Serializable {
 		List<String> liste = catalogueDAO.getAllUniquePays();
 		return liste;
 	}
+
+	@Override
+	public void saveOrUpdate(Destination d) {
+		addDestination(d);
+		
+	}
 }
