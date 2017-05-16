@@ -6,7 +6,7 @@ import java.util.Date;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Named;
 
-@Named("dates")
+@Named("date")
 @ConversationScoped
 public class DatesVoyagesBean implements Serializable {
 	private static final long serialVersionUID = 357912718931065193L;
