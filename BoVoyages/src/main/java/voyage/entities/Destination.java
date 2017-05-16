@@ -173,4 +173,12 @@ public class Destination implements Serializable {
 		return true;
 	}
 
+	public void addDate(DatesVoyages dv) {
+		dates.add(dv);
+	}
+	
+	public void removeDate(DatesVoyages dv) {
+		dates.remove(dv);
+	}
+
 }
