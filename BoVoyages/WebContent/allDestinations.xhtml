@@ -18,22 +18,27 @@
 			<f:view>
 				<p:panel header="Liste des destinations" id="destinations">
 					<h:form>
-						<ul>
-							<c:forEach items="#{service.allDestinations}" var="destination">
-								<li>
-									<p:commandLink ajax="false">
-										<!-- faire un commandButton avec un appel à une méthode de Bean pour demander l'édition de la destination -->
-										<h:outputText value="#{destination.region}" />
-									</p:commandLink>
 
-									<p:button value="Supprimer" icon="ui-icon-trash">
-										<f:param name="destinationId" value="#{destination.id}" />
-										<!-- faire un commandButton avec un appel à une méthode de Bean pour demander la suppression de la destination (en Ajax ?) -->
-									</p:button>
-								</li>
-								${destination.description }
-							</c:forEach>
-						</ul>
+						<c:forEach items="#{service.allDestinations}" var="destination">						
+							<div class="ui-g">
+								<div class="ui-g-9">
+									<h:outputText styleClass="destinationTitre" value="#{destination.region}" />
+								</div>
+								<div class="ui-g-3" style="text-align: right;">
+									<p:menuButton value="Options" >
+										<p:menuitem value="Modifier" icon="ui-icon-arrowrefresh-1-w" />
+										<p:menuitem value="Supprimer" icon="ui-icon-trash" />
+										<p:separator />
+										<p:menuitem value="Consulter les dates" />
+										<p:menuitem value="Ajouter une date" />
+									</p:menuButton>
+								</div>
+								<div class="ui-g-12">
+									<h:outputText value="#{destination.description}" />
+								</div>
+							</div>
+						</c:forEach>
+
 					</h:form>
 				</p:panel>
 			</f:view>

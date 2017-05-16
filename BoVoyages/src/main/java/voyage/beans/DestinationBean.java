@@ -26,13 +26,13 @@ public class DestinationBean implements Serializable {
 	}
 
 	public DestinationBean(int id, String continent, String pays, String region, String description) {
-		super();
 		this.id = id;
 		this.continent = continent;
 		this.pays = pays;
 		this.region = region;
 		this.description = description;
 	}
+
 
 	public int getId() {
 		return id;
