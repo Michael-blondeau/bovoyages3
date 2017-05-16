@@ -2,6 +2,8 @@ package voyage.beans;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -53,7 +55,41 @@ public class DatesVoyagesBean implements Serializable {
 		stopConversation();
 		return "allDestinations?faces-redirect=true";
 	}
+	
+	public String modifier(int idDate, int idDestination){
+		destination = service.getDestinationById(idDestination);
+		List<DatesVoyages> dates = destination.getDates();
+		if (dates != null){
+			for (DatesVoyages date : dates){
+				if(date.getId() == idDate){
+					this.id = date.getId();
+					this.dateDepart = date.getDateDepart();
+					this.dateRetour = date.getDateRetour();
+					this.prix = date.getPrix();
+					this.nbVoyageurs = date.getNbVoyageurs();
+				}
+			}
+			return "creationDateVoyage?faces-redirect=true";
+		}
+		return null;
+	}
 
+	public void supprimer(int idDate, int idDestination){
+		destination = service.getDestinationById(idDestination);
+		List<DatesVoyages> dates = destination.getDates();
+		if (dates != null){
+			Iterator<DatesVoyages> it = dates.iterator();
+			while (it.hasNext()){
+				DatesVoyages dv = it.next();
+				if(dv.getId() == idDate){
+					it.remove();
+				}
+			}
+		}
+		destination.setDates(dates);
+		service.saveOrUpdate(destination);
+		
+	}
 	
 	public void startConversation(){
 		if (conversation.isTransient()) {
