@@ -19,13 +19,17 @@
 			
 				<p:panel id="creation">
 					<p:dataTable var="d" value="#{fullDestination.dates}">
-		
+
 						<p:column headerText="Date de départ">
-							#{d.dateDepart}
+							<h:outputText value="#{d.dateDepart}">
+								<f:convertDateTime pattern="'Le' dd/MM/yyyy 'à' HH:mm" />
+							</h:outputText>
 						</p:column>
-		
+
 						<p:column headerText="Date de retour">
-							#{d.dateRetour}
+							<h:outputText value="#{d.dateRetour}">
+								<f:convertDateTime pattern="'Le' dd/MM/yyyy 'à' HH:mm" />
+							</h:outputText>
 						</p:column>
 		
 						<p:column headerText="Prix">
