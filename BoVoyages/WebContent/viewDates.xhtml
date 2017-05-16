@@ -18,13 +18,17 @@
 			<f:view>
 				<p:panel id="creation">
 					<p:dataTable var="d" value="#{fullDestination.dates}">
-		
+
 						<p:column headerText="Date de départ">
-							#{d.dateDepart}
+							<h:outputText value="#{d.dateDepart}">
+								<f:convertDateTime pattern="'Le' dd/MM/yyyy 'à' HH:mm" />
+							</h:outputText>
 						</p:column>
-		
+
 						<p:column headerText="Date de retour">
-							#{d.dateRetour}
+							<h:outputText value="#{d.dateRetour}">
+								<f:convertDateTime pattern="'Le' dd/MM/yyyy 'à' HH:mm" />
+							</h:outputText>
 						</p:column>
 		
 						<p:column headerText="Prix">
@@ -35,10 +39,14 @@
 						</p:column>
 
 						<p:column>
-								<p:menuButton value="Options" >
-										<p:menuitem value="Modifier" icon="ui-icon-arrowrefresh-1-w" action="#{date.modifier(d.id)}" ajax="false"/>
-										<p:menuitem value="Supprimer" icon="ui-icon-trash" action="#{service.deleteDestination(d.id)}" update="creation"/>
-									</p:menuButton>
+							<h:form>
+								<p:menuButton value="Options">
+									<p:menuitem value="Modifier" icon="ui-icon-arrowrefresh-1-w"
+										action="#{date.modifier(d.id)}" ajax="false" />
+									<p:menuitem value="Supprimer" icon="ui-icon-trash"
+										action="#{service.deleteDestination(d.id)}" update="creation" />
+								</p:menuButton>
+							</h:form>
 						</p:column>
 					</p:dataTable>
 				</p:panel>
