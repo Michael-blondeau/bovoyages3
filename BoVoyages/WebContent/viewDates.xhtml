@@ -33,10 +33,13 @@
 						</p:column>
 		
 						<p:column headerText="Prix">
-							#{d.prix} €
+							<h:outputText value="#{d.prix}">
+								<f:convertNumber currencyCode="EUR"/>
+							</h:outputText>
+							
 						</p:column>
-							<p:column headerText="Nombre de voyageurs">
-							#{d.nbVoyageurs}
+						<p:column headerText="Nombre de voyageurs">
+							<h:outputText value="#{d.nbVoyageurs}"/>
 						</p:column>
 
 						<p:column>
@@ -45,13 +48,13 @@
 									<p:menuitem value="Modifier" icon="ui-icon-arrowrefresh-1-w"
 										action="#{date.modifier(d.id, fullDestination.id)}" ajax="false" />
 									<p:menuitem value="Supprimer" icon="ui-icon-trash"
-										action="#{date.supprimer(d.id, fullDestination.id)}" update="creation" />
+										action="#{date.supprimer(d.id, fullDestination.id)}" update="creation" ajax="false" />
 								</p:menuButton>
 							</h:form>
 						</p:column>
 					</p:dataTable>
 				</p:panel>
-
+				<p:button value="Retour" onclick="window.history.back();"></p:button>
 			</f:view>
 		</ui:define>
 

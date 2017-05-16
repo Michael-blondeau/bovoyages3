@@ -9,6 +9,7 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 
+import voyage.entities.DatesVoyages;
 import voyage.entities.Destination;
 import voyage.exceptions.DAOException;
 
@@ -35,6 +36,7 @@ public interface ICatalogueDAO {
 	 */
 	void saveOrUpdate(Destination destination) throws DAOException;
 	
+	void saveOrUpdate(DatesVoyages date) throws DAOException;
 	/**
 	 * Cette méthode permet de mettre à jour une destination en base de données.
 	 * 
@@ -70,6 +72,8 @@ public interface ICatalogueDAO {
 	 */
 	void delete(Destination destination) throws DAOException;
 	
+	
+	void delete(DatesVoyages date) throws DAOException;
 	/**
 	 * Cette méthode permet de récupérer la liste de toutes les destinations en base de données.
 	 * 

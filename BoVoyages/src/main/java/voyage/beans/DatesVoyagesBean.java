@@ -54,7 +54,8 @@ public class DatesVoyagesBean implements Serializable {
 			dv.setId(id);
 		}
 		destination.addDate(dv);
-		service.saveOrUpdate(destination);
+//		service.saveOrUpdate(destination);
+		service.saveOrUpdate(dv);
 //		stopConversation();
 		return "allDestinations?faces-redirect=true";
 	}
@@ -78,21 +79,25 @@ public class DatesVoyagesBean implements Serializable {
 		return null;
 	}
 
-	public void supprimer(int idDate, int idDestination){
+	public String supprimer(int idDate, int idDestination){
 		destination = service.getDestinationById(idDestination);
 		List<DatesVoyages> dates = destination.getDates();
+		DatesVoyages date = new DatesVoyages();
 		if (dates != null){
 			Iterator<DatesVoyages> it = dates.iterator();
 			while (it.hasNext()){
 				DatesVoyages dv = it.next();
 				if(dv.getId() == idDate){
-					it.remove();
+					date = dv;
+//					it.remove();
 				}
 			}
 		}
 		destination.setDates(dates);
-		service.saveOrUpdate(destination);
-		
+//		service.saveOrUpdate(destination);
+		service.delete(date);
+		stopConversation();
+		return "allDestinations?faces-redirect=true";
 	}
 	
 	public void startConversation(){
