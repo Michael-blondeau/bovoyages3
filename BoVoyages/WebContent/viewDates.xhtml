@@ -16,41 +16,33 @@
 
 		<ui:define name="content">
 			<f:view>
-			<p:dataTable var="date" value="#{fullDestination.dates}">
-				<p:column>
-					#{date.prix}
-				</p:column>
-			</p:dataTable>
-			
 				<p:panel id="creation">
-					<h:form>
-						<p:panelGrid columns="2" style="margin: auto;">
-							<f:facet name="header">Créer une destination</f:facet>
+					<p:dataTable var="d" value="#{fullDestination.dates}">
+		
+						<p:column headerText="Date de départ">
+							#{d.dateDepart}
+						</p:column>
+		
+						<p:column headerText="Date de retour">
+							#{d.dateRetour}
+						</p:column>
+		
+						<p:column headerText="Prix">
+							#{d.prix} €
+						</p:column>
+							<p:column headerText="Nombre de voyageurs">
+							#{d.nbVoyageurs}
+						</p:column>
 
-							<h:outputLabel for="continent" value="Continent :" />
-							<p:inputText id="continent" value="#{destination.continent }"
-								label="continent" placeholder="Continent" />
-
-							<h:outputLabel for="pays" value="Pays :" />
-							<p:inputText id="pays" value="#{destination.pays }" label="pays"
-								placeholder="Pays" />
-
-							<h:outputLabel for="region" value="Région :" />
-							<p:inputText id="region" value="#{destination.region }"
-								required="true" label="region" placeholder="Région" />
-
-							<h:outputLabel for="description" value="Description :" />
-							<p:inputTextarea id="description" label="description"
-								value="#{destination.description }" rows="6" cols="33" />
-
-							<f:facet name="footer">
-								<p:commandButton value="Créer" icon="ui-icon-check"
-									style="margin:0" action="#{destination.add}" />
-								<p:button value="Annuler" onclick="window.history.back();"></p:button>
-							</f:facet>
-						</p:panelGrid>
-					</h:form>
+						<p:column>
+								<p:menuButton value="Options" >
+										<p:menuitem value="Modifier" icon="ui-icon-arrowrefresh-1-w" action="#{date.modifier(d.id)}" ajax="false"/>
+										<p:menuitem value="Supprimer" icon="ui-icon-trash" action="#{service.deleteDestination(d.id)}" update="creation"/>
+									</p:menuButton>
+						</p:column>
+					</p:dataTable>
 				</p:panel>
+
 			</f:view>
 		</ui:define>
 
