@@ -50,19 +50,23 @@ public class DatesVoyagesBean implements Serializable {
 	
 	public String add(){
 		DatesVoyages dv = new DatesVoyages(dateDepart, dateRetour, prix, nbVoyageurs);
+		if(id != 0){
+			dv.setId(id);
+		}
 		destination.addDate(dv);
 		service.saveOrUpdate(destination);
-		stopConversation();
+//		stopConversation();
 		return "allDestinations?faces-redirect=true";
 	}
 	
 	public String modifier(int idDate, int idDestination){
+		startConversation();
 		destination = service.getDestinationById(idDestination);
 		List<DatesVoyages> dates = destination.getDates();
 		if (dates != null){
 			for (DatesVoyages date : dates){
 				if(date.getId() == idDate){
-					this.id = date.getId();
+					this.id = idDate;
 					this.dateDepart = date.getDateDepart();
 					this.dateRetour = date.getDateRetour();
 					this.prix = date.getPrix();
