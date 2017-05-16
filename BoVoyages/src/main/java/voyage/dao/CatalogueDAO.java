@@ -17,6 +17,7 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
+import voyage.entities.DatesVoyages;
 import voyage.entities.Destination;
 import voyage.exceptions.DAOException;
 
@@ -58,6 +59,25 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 			throw new DAOException("Erreur lors de l'enregistrement de la destination", e);
 		}
 	}
+	
+	@Override
+	public void saveOrUpdate(DatesVoyages date) throws DAOException {
+		try {
+			ut.begin();
+			if(date.getId() == 0){
+				em.persist(date);
+			} else {
+				em.merge(date);
+				LOG.info("La date pour cette destination existe déjà ! Mise à jour de la date correspondate.");
+			}
+			ut.commit();
+		} catch (SecurityException | IllegalStateException | NotSupportedException | SystemException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			throw new DAOException("Erreur lors de l'enregistrement de la date", e);
+		}
+		
+		
+	}
 
 	@Override
 	public void delete(Destination destination) throws DAOException {
@@ -77,6 +97,18 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 		} catch (SecurityException | IllegalStateException | NotSupportedException | SystemException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			throw new DAOException("Erreur lors de la suppression de la destination", e);
+		}
+	}
+	
+	public void delete(DatesVoyages date) throws DAOException {
+		try {
+			ut.begin();
+			DatesVoyages dv = em.find(DatesVoyages.class, date.getId());
+			em.remove(dv);
+			ut.commit();
+		} catch (SecurityException | IllegalStateException | NotSupportedException | SystemException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			throw new DAOException("Erreur lors de la suppression de la date", e);
 		}
 	}
 
@@ -110,5 +142,7 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 	public void update(Destination destination) throws DAOException {
 		saveOrUpdate(destination);
 	}
+
+
 
 }

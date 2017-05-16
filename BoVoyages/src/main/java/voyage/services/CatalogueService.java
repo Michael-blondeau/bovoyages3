@@ -88,12 +88,29 @@ public class CatalogueService implements ICatalogueService, Serializable {
 	@Override
 	public void saveOrUpdate(Destination d) {
 		addDestination(d);
-	}	
+	}
+	
+	public void saveOrUpdate(DatesVoyages date){
+		try {
+			catalogueDAO.saveOrUpdate(date);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	public void deleteDestination(int id) {
 		try {
 			catalogueDAO.delete(id);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public void delete(DatesVoyages date){
+		try {
+			catalogueDAO.delete(date);
 		} catch (DAOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
