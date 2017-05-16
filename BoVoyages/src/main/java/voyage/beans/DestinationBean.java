@@ -2,20 +2,26 @@ package voyage.beans;
 
 import java.io.Serializable;
 
+import javax.enterprise.context.Conversation;
+import javax.enterprise.context.ConversationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import voyage.entities.Destination;
 import voyage.services.CatalogueService;
 
-@ManagedBean(name = "destination")
-@ViewScoped
+@Named("destination")
+@ConversationScoped
 public class DestinationBean implements Serializable {
 	private static final long serialVersionUID = -8090576106232814027L;
 
 	@Inject
 	private CatalogueService service;
+	
+	@Inject
+	Conversation conversation;
 
 	private int id;
 	private String continent;
@@ -37,9 +43,33 @@ public class DestinationBean implements Serializable {
 	public String add(){
 		Destination destination = new Destination(continent, pays, region, description);
 		service.saveOrUpdate(destination);
-		return "index";
+    stopConversation();
+		return "index?faces-redirect=true";
+  }
+
+	public String modifier(int id){
+		startConversation();
+		Destination d = service.getDestinationById(id);
+		this.id = d.getId();
+		this.continent = d.getContinent();
+		this.pays = d.getPays();
+		this.region = d.getRegion();
+		this.description = d.getDescription();
+		return "creationDestination?faces-redirect=true";
 	}
 
+	public void startConversation(){
+		if (conversation.isTransient()) {
+			conversation.begin();
+		}	
+	}
+	
+	public void stopConversation(){
+		if (!conversation.isTransient()) {
+			conversation.end();
+		}
+	}
+	
 	public int getId() {
 		return id;
 	}
