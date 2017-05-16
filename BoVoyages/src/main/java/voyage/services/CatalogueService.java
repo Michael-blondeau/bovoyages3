@@ -44,7 +44,9 @@ public class CatalogueService implements ICatalogueService, Serializable {
 		List<Destination> destinations = catalogueDAO.getDestinationByPays(pays);
 		return destinations;
 	}
-
+/**
+ * Ajoute une destination
+ */
 	@Override
 	public void addDestination(Destination d) {
 		try {
@@ -55,6 +57,9 @@ public class CatalogueService implements ICatalogueService, Serializable {
 		}
 	}
 
+	/**
+	 * Modifie une destination
+	 */
 	@Override
 	public void updateDestination(Destination d) {
 		try {
@@ -64,6 +69,9 @@ public class CatalogueService implements ICatalogueService, Serializable {
 		}
 	}
 
+	/**
+	 * Supprime une destination
+	 */
 	@Override
 	public void deleteDestination(Destination d) {
 		try {
@@ -73,18 +81,27 @@ public class CatalogueService implements ICatalogueService, Serializable {
 		}
 	}
 
+	/**
+	 * Affiche la destination en fonction de son identifiant
+	 */
 	@Override
 	public Destination getDestinationById(int id) {
 		Destination d = catalogueDAO.getDestinationById(id);
 		return d;
 	}
 
+	/**
+	 * Affiche tous les pays
+	 */
 	@Override
 	public List<String> getAllUniquePays() {
 		List<String> liste = catalogueDAO.getAllUniquePays();
 		return liste;
 	}
 
+	/**
+	 * Surcharge de la methode addDestination
+	 */
 	@Override
 	public void saveOrUpdate(Destination d) {
 		addDestination(d);
@@ -117,6 +134,11 @@ public class CatalogueService implements ICatalogueService, Serializable {
 		}
 	}
 	
+	/**
+	 * Affiche une liste de dates en fonction de la destination
+	 * @param id
+	 * @return
+	 */
 	public List<DatesVoyages> getAllDates(int id){
 		Destination d = getDestinationById(id);
 		return d.getDates();
