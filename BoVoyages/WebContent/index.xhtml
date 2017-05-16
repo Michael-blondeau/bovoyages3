@@ -16,21 +16,28 @@
 	
 		<ui:define name="content">
 			<f:view>
-				<p:panel header="Gestion des destinations">
+				<p:panel header="Gestion des destinations" style="border: none; background: transparent;">
 					<h:form>
 						<h:panelGrid columns="3" cellpadding="10">
 							<h:outputText value="Gérer toutes les destinations" />
 							<h:outputText value=" " />
-							<p:commandButton value="Gérer" />
-							
+							<p:commandButton value="Gérer" action="allDestinations"/>
+						</h:panelGrid>
+					</h:form>
+					
+					<h:form>
+						<h:panelGrid columns="3" cellpadding="10">
 							<h:outputText value="Gérer les destinations par pays" />
-							<p:selectOneMenu >
+							<p:selectOneMenu value="#{destination.pays}">
 								<f:selectItem itemLabel="Sélectionner un pays..." itemValue=""/>
-								<f:selectItem itemLabel="test1" itemValue="test1" />
-								<f:selectItem itemLabel="test2" itemValue="test2" />
+								<f:selectItems value="#{service.allUniquePays}" var="pays" itemLabel="#{pays}" itemValue="#{pays}" />
 							</p:selectOneMenu>
 							<p:commandButton value="Gérer" />
-							
+							</h:panelGrid>
+					</h:form>
+					
+					<h:form>
+						<h:panelGrid columns="3" cellpadding="10">
 							<h:outputText value="Créer une destination" />
 							<h:outputText value=" " />
 							<p:commandButton value="Créer" />
