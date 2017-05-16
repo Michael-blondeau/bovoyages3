@@ -83,4 +83,14 @@ public class CatalogueService implements ICatalogueService, Serializable {
 		List<String> liste = catalogueDAO.getAllUniquePays();
 		return liste;
 	}
+
+	@Override
+	public void deleteDestination(int id) {
+		try {
+			catalogueDAO.delete(id);
+		} catch (DAOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 }
