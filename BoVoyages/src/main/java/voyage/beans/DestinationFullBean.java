@@ -1,18 +1,24 @@
 package voyage.beans;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.primefaces.context.RequestContext;
+
+import voyage.entities.DatesVoyages;
 import voyage.entities.Destination;
 import voyage.services.CatalogueService;
 
-@Named("destination")
+@Named("fullDestination")
 @ConversationScoped
-public class DestinationBean implements Serializable {
+public class DestinationFullBean implements Serializable {
 	private static final long serialVersionUID = -8090576106232814027L;
 
 	@Inject
@@ -26,11 +32,13 @@ public class DestinationBean implements Serializable {
 	private String pays;
 	private String region;
 	private String description;
+	
+	private List<DatesVoyages> dates;
 
-	public DestinationBean() {
+	public DestinationFullBean() {
 	}
 
-	public DestinationBean(int id, String continent, String pays, String region, String description) {
+	public DestinationFullBean(int id, String continent, String pays, String region, String description) {
 		this.id = id;
 		this.continent = continent;
 		this.pays = pays;
@@ -38,24 +46,20 @@ public class DestinationBean implements Serializable {
 		this.description = description;
 	}
 	
-	public String add(){
-		Destination destination = new Destination(continent, pays, region, description);
-		service.saveOrUpdate(destination);
-		stopConversation();
-		return "allDestinations?faces-redirect=true";
-  }
-
-	public String modifier(int id){
+	public String viewDates(int id) {
 		startConversation();
+		
 		Destination d = service.getDestinationById(id);
 		this.id = d.getId();
 		this.continent = d.getContinent();
 		this.pays = d.getPays();
 		this.region = d.getRegion();
 		this.description = d.getDescription();
-		return "creationDestination?faces-redirect=true";
-	}
-
+		this.dates = d.getDates();
+		
+		return "viewDates?faces-redirect=true";
+    }
+	
 	public void startConversation(){
 		if (conversation.isTransient()) {
 			conversation.begin();
@@ -106,6 +110,14 @@ public class DestinationBean implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<DatesVoyages> getDates() {
+		return dates;
+	}
+
+	public void setDates(List<DatesVoyages> dates) {
+		this.dates = dates;
 	}
 
 }

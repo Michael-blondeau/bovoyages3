@@ -9,33 +9,40 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>BoVoyages</title>
+	<title>Liste des dates de voyage</title>
 </h:head>
 <h:body>
 	<ui:composition template="/template/layout.xhtml">
 
 		<ui:define name="content">
 			<f:view>
+			<p:dataTable var="date" value="#{fullDestination.dates}">
+				<p:column>
+					#{date.prix}
+				</p:column>
+			</p:dataTable>
+			
 				<p:panel id="creation">
 					<h:form>
 						<p:panelGrid columns="2" style="margin: auto;">
 							<f:facet name="header">Créer une destination</f:facet>
-							
+
 							<h:outputLabel for="continent" value="Continent :" />
 							<p:inputText id="continent" value="#{destination.continent }"
 								label="continent" placeholder="Continent" />
-								
+
 							<h:outputLabel for="pays" value="Pays :" />
-							<p:inputText id="pays" value="#{destination.pays }" label="pays" placeholder="Pays" />
-							
+							<p:inputText id="pays" value="#{destination.pays }" label="pays"
+								placeholder="Pays" />
+
 							<h:outputLabel for="region" value="Région :" />
 							<p:inputText id="region" value="#{destination.region }"
-								required="true" label="region" placeholder="Région"/>
-								
+								required="true" label="region" placeholder="Région" />
+
 							<h:outputLabel for="description" value="Description :" />
 							<p:inputTextarea id="description" label="description"
 								value="#{destination.description }" rows="6" cols="33" />
-								
+
 							<f:facet name="footer">
 								<p:commandButton value="Créer" icon="ui-icon-check"
 									style="margin:0" action="#{destination.add}" />
@@ -48,5 +55,6 @@
 		</ui:define>
 
 	</ui:composition>
+
 </h:body>
 </html>
