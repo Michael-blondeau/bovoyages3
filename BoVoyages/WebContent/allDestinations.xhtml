@@ -31,7 +31,7 @@
 										<p:menuitem value="Supprimer" icon="ui-icon-trash" action="#{service.deleteDestination(d.id)}" update="destinations"/>
 										<p:separator />
 										<p:menuitem value="Consulter les dates" icon="ui-icon-extlink" action="#{fullDestination.viewDates(d.id)}" ajax="false"/>
-										<p:menuitem value="Ajouter une date" />
+										<p:menuitem value="Ajouter une date" icon="ui-icon-extlink" action="#{date.addDate(d.id)}" ajax="false"/>
 									</p:menuButton>
 								</div>
 								<div class="ui-g-12">
