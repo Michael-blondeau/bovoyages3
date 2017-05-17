@@ -30,11 +30,11 @@
 					<h:form>
 						<h:panelGrid columns="3" cellpadding="10">
 							<h:outputText value="Gérer les destinations par pays" />
-							<p:selectOneMenu value="#{destination.pays}">
+							<p:selectOneMenu value="#{destination.pays}" required="true">
 								<f:selectItem itemLabel="Sélectionner un pays..." itemValue=""/>
 								<f:selectItems value="#{service.allUniquePays}" var="pays" itemLabel="#{pays}" itemValue="#{pays}" />
 							</p:selectOneMenu>
-							<p:commandButton value="Gérer" />
+							<p:commandButton value="Gérer" action="#{destination.getDestinationsByPays(destination.pays)}"/>
 							</h:panelGrid>
 					</h:form>
 					
