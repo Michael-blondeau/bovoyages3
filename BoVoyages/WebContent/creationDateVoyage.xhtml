@@ -22,14 +22,10 @@
 							<f:facet name="header">Créer une date de voyage</f:facet>
 							
 							<h:outputLabel for="depart" value="Date de départ :" />
-							<p:inputText id="depart" value="#{date.dateDepart}" placeholder="jj/mm/aaaa hh:mm:ss" >
-								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"></f:convertDateTime>
-							</p:inputText>
+							<p:calendar id="depart" value="#{date.dateDepart}" pattern="dd/MM/yyyy HH:mm:ss" />
 							
 							<h:outputLabel for="retour" value="Date de retour :" />
-							<p:inputText id="retour" value="#{date.dateRetour}" placeholder="jj/mm/aaaa hh:mm:ss" >
-								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss"></f:convertDateTime>
-							</p:inputText>
+							<p:calendar id="retour" value="#{date.dateRetour}" pattern="dd/MM/yyyy HH:mm:ss" />
 								
 							<h:outputLabel for="prix" value="Prix (HT)" />
 							<p:inputText id="prix" value="#{date.prix}" placeholder="Prix H.T." />
