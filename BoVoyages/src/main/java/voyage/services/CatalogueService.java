@@ -136,8 +136,8 @@ public class CatalogueService implements ICatalogueService, Serializable {
 	
 	/**
 	 * Affiche une liste de dates en fonction de la destination
-	 * @param id
-	 * @return
+	 * @param id L'identifiant de la destination
+	 * @return Une liste des destinations
 	 */
 	public List<DatesVoyages> getAllDates(int id){
 		Destination d = getDestinationById(id);

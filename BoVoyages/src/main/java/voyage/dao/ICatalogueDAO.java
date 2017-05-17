@@ -18,7 +18,7 @@ import voyage.exceptions.DAOException;
  * 
  * Une implémentation est fournie avec la classe {@link CatalogueDAO}.
  * 
- * @author Pierrik & Michael
+ * @author Pierrik et Michael
  *
  */
 public interface ICatalogueDAO {
@@ -32,7 +32,7 @@ public interface ICatalogueDAO {
 	 * de mettre à jour l'identifiant unique (id) de la destination par appel de la méthode 
 	 * {@link Destination#setId(int)}.
 	 * @param destination La destination à sauvegarder.
-	 * @throws DAOException 
+	 * @throws DAOException En cas d'erreur
 	 */
 	void saveOrUpdate(Destination destination) throws DAOException;
 	
@@ -44,14 +44,7 @@ public interface ICatalogueDAO {
 	 * pas le cas, la destination devrait être enregistrée grâce à la méthode 
 	 * {@link ICatalogueDAO#saveOrUpdate(Destination)}.
 	 * @param destination La destination à mettre à jour.
-	 * @throws SQLException Si la base de données n'est pas accessible.
-	 * @throws HeuristicRollbackException 
-	 * @throws HeuristicMixedException 
-	 * @throws RollbackException 
-	 * @throws SystemException 
-	 * @throws NotSupportedException 
-	 * @throws IllegalStateException 
-	 * @throws SecurityException 
+	 * @throws DAOException En cas d'erreur
 	 */
 	void update(Destination destination) throws DAOException;
 	
@@ -61,14 +54,7 @@ public interface ICatalogueDAO {
 	 * La méthode devrait vérifier si la destination possède un identifiant non nul. Si ce n'est
 	 * pas le cas, rien ne se passe.
 	 * @param destination La destination à mettre à jour.
-	 * @throws SQLException Si la base de données n'est pas accessible.
-	 * @throws HeuristicRollbackException 
-	 * @throws HeuristicMixedException 
-	 * @throws RollbackException 
-	 * @throws SystemException 
-	 * @throws NotSupportedException 
-	 * @throws IllegalStateException 
-	 * @throws SecurityException 
+	 * @throws DAOException En cas d'erreur 
 	 */
 	void delete(Destination destination) throws DAOException;
 	
@@ -80,8 +66,8 @@ public interface ICatalogueDAO {
 	 * La méhode devrait renvoyer une liste de toutes les destinations enregistrées en
 	 * base de données. 
 	 * 
-	 * @return List<Destination> Une liste de destinations, ou {@code null} si rien n'a été trouvé.
-	 * @throws SQLException Si la base de données n'est pas accessible.
+	 * @return Une liste de destinations, ou {@code null} si rien n'a été trouvé.
+	 * @throws DAOException En cas d'erreur
 	 */
 	List<Destination> getAllDestinations() throws DAOException;
 	
@@ -93,8 +79,8 @@ public interface ICatalogueDAO {
 	 * base de données correspondant au pays passé en argument.
 	 * 
 	 * @param pays Le pays utilisé pour filtrer les résultats.
-	 * @return List<Destination> Une liste de destinations, ou {@code null} si rien n'a été trouvé.
-	 * @throws SQLException Si la base de données n'est pas accessible.
+	 * @return Une liste de destinations, ou {@code null} si rien n'a été trouvé.
+	 * @throws DAOException En cas d'erreur
 	 */
 	List<Destination> getDestinationByPays(String pays) throws DAOException;
 	
@@ -102,18 +88,17 @@ public interface ICatalogueDAO {
 	 * Cette méthode permet de récupérer une destination en base de données
 	 * à l'aide de son identifiant unique.
 	 * 
-	 * 
 	 * @param id L'identifiant unique de la Destination
 	 * @return La destination correspondante à la recherche, ou {@code null} si rien n'a été trouvé.
-	 * @throws SQLException Si la base de données n'est pas accessible.
+	 * @throws DAOException En cas d'erreur
 	 */
 	Destination getDestinationById(int id) throws DAOException;
 	
 	/**
 	 * Cette méthode permet de récupérer la liste des pays (sans doublons).
 	 * 
-	 * @return List<String> Une liste de tous les pays enregistrés en base de données.
-	 * @throws SQLException Si la base de données n'est pas accessible.
+	 * @return Une liste de tous les pays enregistrés en base de données.
+	 * @throws DAOException En cas d'erreur
 	 */
 	List<String> getAllUniquePays() throws DAOException;
 }
