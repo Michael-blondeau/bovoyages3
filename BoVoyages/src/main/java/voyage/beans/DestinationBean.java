@@ -68,6 +68,13 @@ public class DestinationBean implements Serializable {
 		}
 	}
 	
+	public String getDestinationsByPays(String pays){
+		startConversation();
+		this.pays = pays;
+		
+		return "destinationsParPays?faces-redirect=true";
+	}
+	
 	public int getId() {
 		return id;
 	}
