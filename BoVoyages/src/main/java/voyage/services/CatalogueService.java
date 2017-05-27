@@ -134,6 +134,12 @@ public class CatalogueService implements ICatalogueService, Serializable {
 		}
 	}
 	
+	public List<DatesVoyages> getDates(int destinationId){
+		List<DatesVoyages> dates = null;
+		dates = catalogueDAO.getDates(destinationId);
+		return dates;
+	}
+	
 	/**
 	 * Affiche une liste de dates en fonction de la destination
 	 * @param id L'identifiant de la destination

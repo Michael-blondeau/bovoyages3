@@ -143,6 +143,14 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 		saveOrUpdate(destination);
 	}
 
+	public List<DatesVoyages> getDates(int destinationId) {
+		List<DatesVoyages> dates = null;
+		Query query = em.createQuery("SELECT d.dates FROM Destination d WHERE d.id = :id");
+		query.setParameter("id", destinationId);
+		dates = query.getResultList();
+		return dates;
+	}
+
 
 
 }
