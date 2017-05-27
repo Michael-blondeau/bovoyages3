@@ -113,6 +113,12 @@ public class DestinationFullBean implements Serializable {
 	}
 
 	public List<DatesVoyages> getDates() {
+		// Met à jour la liste des dates à chaque appel
+		int id = this.id;
+		System.err.println(">>> id = " + id);
+		stopConversation();
+		viewDates(id);
+		// Renvoie la liste de dates
 		return dates;
 	}
 

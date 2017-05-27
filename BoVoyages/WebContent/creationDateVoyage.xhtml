@@ -34,9 +34,9 @@
 							<p:inputText id="nbVoyageurs" value="#{date.nbVoyageurs}" placeholder="Nombre de voyageurs" />
 							
 							<f:facet name="footer">
-								<p:commandButton value="Créer" icon="ui-icon-check"
+								<p:commandButton value="Envoyer" icon="ui-icon-check"
 									style="margin:0" action="#{date.add()}" />
-								<p:button value="Annuler" onclick="window.history.back();"></p:button>
+								<p:commandButton value="Annuler" onclick="window.history.back();"/>
 							</f:facet>
 						</p:panelGrid>
 					</h:form>

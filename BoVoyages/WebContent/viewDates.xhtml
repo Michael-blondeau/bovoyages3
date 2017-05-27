@@ -54,7 +54,7 @@
 						</p:column>
 					</p:dataTable>
 				</p:panel>
-				<p:button value="Retour" onclick="window.history.back();"></p:button>
+				<p:commandButton value="Retour" actionListener="#{fullDestination.stopConversation}" onclick="window.history.back();" />
 			</f:view>
 		</ui:define>
 

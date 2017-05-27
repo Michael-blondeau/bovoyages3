@@ -37,9 +37,9 @@
 								value="#{destination.description }" rows="6" cols="33" />
 								
 							<f:facet name="footer">
-								<p:commandButton value="Créer" icon="ui-icon-check"
+								<p:commandButton value="Envoyer" icon="ui-icon-check"
 									style="margin:0" action="#{destination.add}" />
-								<p:button value="Annuler" onclick="window.history.back();"></p:button>
+								<p:commandButton value="Annuler" actionListener="#{destination.stopConversation}" onclick="window.history.back();"/>
 							</f:facet>
 						</p:panelGrid>
 					</h:form>

@@ -52,12 +52,16 @@ public class DatesVoyagesBean implements Serializable {
 		DatesVoyages dv = new DatesVoyages(dateDepart, dateRetour, prix, nbVoyageurs);
 		if(id != 0){
 			dv.setId(id);
+			service.saveOrUpdate(dv);
+			stopConversation();
+			return "allDestinations?faces-redirect=true";
+		} else {
+			destination.addDate(dv);
+			service.saveOrUpdate(destination);
+			// Problème : ne met pas à jour la liste dans bean FullDestination
+			return "viewDates?faces-redirect=true";
 		}
-		destination.addDate(dv);
-//		service.saveOrUpdate(destination);
-		service.saveOrUpdate(dv);
-//		stopConversation();
-		return "allDestinations?faces-redirect=true";
+		
 	}
 	
 	public String modifier(int idDate, int idDestination){

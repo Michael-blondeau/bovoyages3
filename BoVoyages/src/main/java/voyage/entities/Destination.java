@@ -54,7 +54,7 @@ public class Destination implements Serializable {
 	private String description;
 	
 	@OneToMany(cascade={CascadeType.ALL}, fetch=FetchType.EAGER)
-	@JoinColumn(name="fk_destination")
+	@JoinColumn(name="fk_destination", nullable=false)
 	private List<DatesVoyages> dates;
 
 

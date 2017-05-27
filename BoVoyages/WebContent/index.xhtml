@@ -21,20 +21,20 @@
 				<p:panel header="Gestion des destinations" >
 					<h:form>
 						<h:panelGrid columns="3" cellpadding="10">
-							<h:outputText value="Gérer toutes les destinations" />
+							<h:outputText value="Afficher la liste de toutes les destinations" />
 							<h:outputText value=" " />
-							<p:commandButton value="Gérer" action="allDestinations?faces-redirect=true"/>
+							<p:commandButton value="Afficher" action="allDestinations?faces-redirect=true"/>
 						</h:panelGrid>
 					</h:form>
 					
 					<h:form>
 						<h:panelGrid columns="3" cellpadding="10">
-							<h:outputText value="Gérer les destinations par pays" />
+							<h:outputText value="Afficher les destinations par pays" />
 							<p:selectOneMenu value="#{destination.pays}" required="true">
 								<f:selectItem itemLabel="Sélectionner un pays..." itemValue=""/>
 								<f:selectItems value="#{service.allUniquePays}" var="pays" itemLabel="#{pays}" itemValue="#{pays}" />
 							</p:selectOneMenu>
-							<p:commandButton value="Gérer" action="#{destination.getDestinationsByPays(destination.pays)}"/>
+							<p:commandButton value="Afficher" action="#{destination.getDestinationsByPays(destination.pays)}"/>
 							</h:panelGrid>
 					</h:form>
 					

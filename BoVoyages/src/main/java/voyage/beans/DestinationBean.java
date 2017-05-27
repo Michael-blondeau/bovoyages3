@@ -17,7 +17,7 @@ public class DestinationBean implements Serializable {
 
 	@Inject
 	private CatalogueService service;
-	
+
 	@Inject
 	Conversation conversation;
 
@@ -37,15 +37,18 @@ public class DestinationBean implements Serializable {
 		this.region = region;
 		this.description = description;
 	}
-	
-	public String add(){
+
+	public String add() {
 		Destination destination = new Destination(continent, pays, region, description);
+		if (this.id != 0) {
+			destination.setId(this.id);
+		}
 		service.saveOrUpdate(destination);
 		stopConversation();
 		return "allDestinations?faces-redirect=true";
-  }
+	}
 
-	public String modifier(int id){
+	public String modifier(int id) {
 		startConversation();
 		Destination d = service.getDestinationById(id);
 		this.id = d.getId();
@@ -56,25 +59,26 @@ public class DestinationBean implements Serializable {
 		return "creationDestination?faces-redirect=true";
 	}
 
-	public void startConversation(){
+	public void startConversation() {
 		if (conversation.isTransient()) {
 			conversation.begin();
-		}	
+			System.err.println(">>> Started conversation : " + conversation.getId());
+		}
 	}
-	
-	public void stopConversation(){
+
+	public void stopConversation() {
 		if (!conversation.isTransient()) {
+			System.err.println(">>> Stopping conversation : " + conversation.getId());
 			conversation.end();
 		}
 	}
-	
-	public String getDestinationsByPays(String pays){
+
+	public String getDestinationsByPays(String pays) {
 		startConversation();
 		this.pays = pays;
-		
 		return "destinationsParPays?faces-redirect=true";
 	}
-	
+
 	public int getId() {
 		return id;
 	}

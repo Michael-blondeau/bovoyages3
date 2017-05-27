@@ -43,10 +43,10 @@ public class DatesVoyages implements Serializable {
 	@Column(name="date_retour")
 	private Date dateRetour;
 	
-	@Column(name="prixHT")
+	@Column(name="prixHT", nullable=false)
 	private double prix;
 	
-	@Column(name="nb_voyageurs")
+	@Column(name="nb_voyageurs", nullable=false)
 	private int nbVoyageurs;
 
 	public DatesVoyages() {	}
