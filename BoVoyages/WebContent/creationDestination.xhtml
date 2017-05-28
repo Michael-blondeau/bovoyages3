@@ -20,26 +20,35 @@
 					<h:form>
 						<p:panelGrid columns="2" style="margin: auto;">
 							<f:facet name="header">Créer une destination</f:facet>
-							
+
 							<h:outputLabel for="continent" value="Continent :" />
-							<p:inputText id="continent" value="#{destination.continent }"
-								label="continent" placeholder="Continent" />
-								
+							<p:selectOneMenu id="continent" value="#{destination.continent }">
+								<f:selectItem itemLabel="Sélectionnez un continent..."
+									itemValue="" />
+								<f:selectItems value="#{destination.continents}" var="continent"
+									itemLabel="#{continent}" itemValue="#{continent}" />
+							</p:selectOneMenu>
+
 							<h:outputLabel for="pays" value="Pays :" />
-							<p:inputText id="pays" value="#{destination.pays }" label="pays" placeholder="Pays" />
-							
+							<p:inputText id="pays" value="#{destination.pays }" label="pays"
+								placeholder="Pays" />
+
 							<h:outputLabel for="region" value="Région :" />
 							<p:inputText id="region" value="#{destination.region }"
-								required="true" label="region" placeholder="Région"/>
-								
+								required="true" label="region" placeholder="Région" />
+
 							<h:outputLabel for="description" value="Description :" />
 							<p:inputTextarea id="description" label="description"
-								value="#{destination.description }" rows="6" cols="33" />
-								
+								required="true" value="#{destination.description }" rows="6"
+								cols="33" />
+
 							<f:facet name="footer">
 								<p:commandButton value="Envoyer" icon="ui-icon-check"
-									style="margin:0" action="#{destination.add}" />
-								<p:commandButton value="Annuler" icon="ui-icon-cancel" actionListener="#{destination.stopConversation}" onclick="window.history.back();"/>
+									style="margin:0" action="#{destination.add}"
+									validateClient="true" />
+								<p:commandButton value="Annuler" icon="ui-icon-cancel"
+									actionListener="#{destination.stopConversation}"
+									onclick="window.history.back();" />
 							</f:facet>
 						</p:panelGrid>
 					</h:form>

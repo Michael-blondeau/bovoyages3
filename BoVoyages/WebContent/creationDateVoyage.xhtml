@@ -18,25 +18,48 @@
 			<f:view>
 				<p:panel id="creation">
 					<h:form>
+						<p:messages id="messages" showDetail="false" autoUpdate="true" closable="true" />
+						
 						<p:panelGrid columns="2" style="margin: auto;">
 							<f:facet name="header">Créer une date de voyage</f:facet>
 							
 							<h:outputLabel for="depart" value="Date de départ :" />
-							<p:calendar id="depart" value="#{date.dateDepart}" pattern="dd/MM/yyyy HH:mm:ss" />
-							
+							<p:calendar id="depart" value="#{date.dateDepart}" binding="#{startDateComponent}"
+								pattern="dd/MM/yyyy HH:mm:ss"
+								mindate="#{date.minDate}" 
+								required="true" 
+								label="Date de départ" />
+
 							<h:outputLabel for="retour" value="Date de retour :" />
-							<p:calendar id="retour" value="#{date.dateRetour}" pattern="dd/MM/yyyy HH:mm:ss" />
-								
+							<p:calendar id="retour" value="#{date.dateRetour}"
+								pattern="dd/MM/yyyy HH:mm:ss"
+								mindate="#{date.minDate}"
+								required="true" 
+								label="Date de retour" />
+
 							<h:outputLabel for="prix" value="Prix (HT)" />
-							<p:inputText id="prix" value="#{date.prix}" placeholder="Prix H.T." />
-							
+							<p:inputText id="prix" value="#{date.prix}"
+								converter="javax.faces.Double"
+								required="true" 
+								label="Prix" >
+								<f:validateDoubleRange minimum="1.0" />
+								<p:keyFilter for="prix" regEx="/[\d\.\s,]/" />
+							</p:inputText>
+
 							<h:outputLabel for="nbVoyageurs" value="Nombre de voyageurs" />
-							<p:inputText id="nbVoyageurs" value="#{date.nbVoyageurs}" placeholder="Nombre de voyageurs" />
-							
+							<p:inputText id="nbVoyageurs" value="#{date.nbVoyageurs}"
+								required="true"
+								label="Nombre de voyageurs" >
+								<f:validateLongRange for="nbVoyageurs" minimum="1" />
+								<p:keyFilter for="nbVoyageurs" regEx="/[\d]/" />
+							</p:inputText>
+
 							<f:facet name="footer">
 								<p:commandButton value="Envoyer" icon="ui-icon-check"
-									style="margin:0" action="#{date.add()}" />
-								<p:commandButton value="Annuler" icon="ui-icon-cancel" onclick="window.history.back();"/>
+									style="margin:0" action="#{date.add()}" validateClient="true" 
+									update="growl" />
+								<p:commandButton value="Annuler" icon="ui-icon-cancel"
+									onclick="window.history.back();" />
 							</f:facet>
 						</p:panelGrid>
 					</h:form>

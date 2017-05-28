@@ -25,6 +25,10 @@ public class DatesVoyagesBean implements Serializable {
 	private double prix;
 	private int nbVoyageurs;
 
+	// Date du jour, utilisée pour fixer la date minimum du
+	// calendrier
+	private Date minDate = new Date();
+
 	private Destination destination;
 
 	@Inject
@@ -86,7 +90,7 @@ public class DatesVoyagesBean implements Serializable {
 		if (id != 0) {
 			dv.setId(id);
 			service.saveOrUpdate(dv);
-//			stopConversation();
+			// stopConversation();
 		} else {
 			destination.addDate(dv);
 			service.saveOrUpdate(destination);
@@ -174,7 +178,7 @@ public class DatesVoyagesBean implements Serializable {
 		// destination.setDates(dates);
 		// service.saveOrUpdate(destination);
 		service.delete(date);
-//		stopConversation();
+		// stopConversation();
 		return "viewDates?faces-redirect=true";
 	}
 
@@ -258,5 +262,13 @@ public class DatesVoyagesBean implements Serializable {
 
 	public void setDestination(Destination destination) {
 		this.destination = destination;
+	}
+
+	public Date getMinDate() {
+		return minDate;
+	}
+
+	public void setMinDate(Date minDate) {
+		this.minDate = minDate;
 	}
 }

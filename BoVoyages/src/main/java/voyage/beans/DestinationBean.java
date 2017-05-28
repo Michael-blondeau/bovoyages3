@@ -1,6 +1,7 @@
 package voyage.beans;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -14,7 +15,8 @@ import voyage.services.CatalogueService;
 @ConversationScoped
 public class DestinationBean implements Serializable {
 	private static final long serialVersionUID = -8090576106232814027L;
-
+	private static final Logger LOG = Logger.getLogger(DestinationBean.class.getName());
+	
 	@Inject
 	private CatalogueService service;
 
@@ -22,6 +24,8 @@ public class DestinationBean implements Serializable {
 	Conversation conversation;
 
 	private int id;
+	private String[] continents = { "Afrique", "Amérique", "Amérique du Nord", "Amérique du Sud", "Amérique Centrale",
+			"Antartique", "Asie", "Europe", "Océanie" };
 	private String continent;
 	private String pays;
 	private String region;
@@ -62,13 +66,13 @@ public class DestinationBean implements Serializable {
 	public void startConversation() {
 		if (conversation.isTransient()) {
 			conversation.begin();
-			System.err.println(">>> Started conversation : " + conversation.getId());
+			LOG.info(">>> Started conversation : " + conversation.getId());
 		}
 	}
 
 	public void stopConversation() {
 		if (!conversation.isTransient()) {
-			System.err.println(">>> Stopping conversation : " + conversation.getId());
+			LOG.info(">>> Stopping conversation : " + conversation.getId());
 			conversation.end();
 		}
 	}
@@ -117,6 +121,14 @@ public class DestinationBean implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String[] getContinents() {
+		return continents;
+	}
+
+	public void setContinents(String[] continents) {
+		this.continents = continents;
 	}
 
 }
