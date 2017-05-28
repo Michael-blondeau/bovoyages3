@@ -44,9 +44,10 @@ public class CatalogueService implements ICatalogueService, Serializable {
 		List<Destination> destinations = catalogueDAO.getDestinationByPays(pays);
 		return destinations;
 	}
-/**
- * Ajoute une destination
- */
+
+	/**
+	 * Ajoute une destination
+	 */
 	@Override
 	public void addDestination(Destination d) {
 		try {
@@ -106,8 +107,9 @@ public class CatalogueService implements ICatalogueService, Serializable {
 	public void saveOrUpdate(Destination d) {
 		addDestination(d);
 	}
-	
-	public void saveOrUpdate(DatesVoyages date){
+
+	@Override
+	public void saveOrUpdate(DatesVoyages date) {
 		try {
 			catalogueDAO.saveOrUpdate(date);
 		} catch (DAOException e) {
@@ -125,7 +127,9 @@ public class CatalogueService implements ICatalogueService, Serializable {
 			e.printStackTrace();
 		}
 	}
-	public void delete(DatesVoyages date){
+
+	@Override
+	public void delete(DatesVoyages date) {
 		try {
 			catalogueDAO.delete(date);
 		} catch (DAOException e) {
@@ -133,19 +137,23 @@ public class CatalogueService implements ICatalogueService, Serializable {
 			e.printStackTrace();
 		}
 	}
-	
-	public List<DatesVoyages> getDates(int destinationId){
+
+	@Override
+	public List<DatesVoyages> getDates(int destinationId) {
 		List<DatesVoyages> dates = null;
 		dates = catalogueDAO.getDates(destinationId);
 		return dates;
 	}
-	
+
 	/**
 	 * Affiche une liste de dates en fonction de la destination
-	 * @param id L'identifiant de la destination
+	 * 
+	 * @param id
+	 *            L'identifiant de la destination
 	 * @return Une liste des destinations
 	 */
-	public List<DatesVoyages> getAllDates(int id){
+	@Override
+	public List<DatesVoyages> getAllDates(int id) {
 		Destination d = getDestinationById(id);
 		return d.getDates();
 	}

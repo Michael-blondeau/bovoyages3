@@ -30,25 +30,36 @@ import voyage.exceptions.DAOException;
 @Named
 @Dependent
 public class CatalogueDAO implements ICatalogueDAO, Serializable {
-	
+
 	private static final long serialVersionUID = 4750916274788982440L;
 
 	private static final Logger LOG = Logger.getLogger(CatalogueDAO.class.getCanonicalName());
 
 	@PersistenceContext(unitName = "BoVoyages")
 	private EntityManager em;
-	
+
 	@Resource
 	private UserTransaction ut;
 
-	public CatalogueDAO() {	}
+	/**
+	 * Constructeur par défaut.
+	 */
+	public CatalogueDAO() {
+	}
 
+	/**
+	 * Sauvegarde une {@link Destination}, ou la met à jour si elle existe déjà.
+	 * 
+	 * @param destination
+	 *            La destination a enregistrer
+	 */
 	@Override
 	public void saveOrUpdate(Destination destination) throws DAOException {
 		try {
 			ut.begin();
 			if (destination.getId() == 0) {
 				em.persist(destination);
+				LOG.info("Enregistrement de la nouvelle destination.");
 			} else {
 				em.merge(destination);
 				LOG.info("La destination existe déjà ! Mise à jour de la destination correspondate.");
@@ -59,13 +70,21 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 			throw new DAOException("Erreur lors de l'enregistrement de la destination", e);
 		}
 	}
-	
+
+	/**
+	 * Sauvegarde une {@link DatesVoyages}, ou la met à jour si elle existe
+	 * déjà.
+	 * 
+	 * @param date
+	 *            La date à enregistrer
+	 */
 	@Override
 	public void saveOrUpdate(DatesVoyages date) throws DAOException {
 		try {
 			ut.begin();
-			if(date.getId() == 0){
+			if (date.getId() == 0) {
 				em.persist(date);
+				LOG.info("Enregistrement de la nouvelle date de voyage.");
 			} else {
 				em.merge(date);
 				LOG.info("La date pour cette destination existe déjà ! Mise à jour de la date correspondate.");
@@ -75,19 +94,33 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			throw new DAOException("Erreur lors de l'enregistrement de la date", e);
 		}
-		
-		
+
 	}
 
+	/**
+	 * Supprime une destination.
+	 * 
+	 * @param destination
+	 *            La destination à supprimer
+	 */
 	@Override
 	public void delete(Destination destination) throws DAOException {
 		if (destination.getId() != 0) {
 			delete(destination.getId());
+			LOG.info("La destination a été supprimée.");
 		} else {
 			LOG.info("Impossible de supprimer la destination (n'existe pas).");
 		}
 	}
 
+	/**
+	 * Supprime une destination grâce à son identifiant.
+	 * 
+	 * @param id
+	 *            L'identifiant de la destination à supprimer
+	 * @throws DAOException
+	 *             En cas d'erreur de suppression
+	 */
 	public void delete(int id) throws DAOException {
 		try {
 			ut.begin();
@@ -99,7 +132,14 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 			throw new DAOException("Erreur lors de la suppression de la destination", e);
 		}
 	}
-	
+
+	/**
+	 * Supprime une date de voyage.
+	 * 
+	 * @param date
+	 *            La date de voyage à supprimer
+	 */
+	@Override
 	public void delete(DatesVoyages date) throws DAOException {
 		try {
 			ut.begin();
@@ -112,12 +152,25 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 		}
 	}
 
+	/**
+	 * Récupère la liste de toutes les destinations en base de données.
+	 * 
+	 * @return Une liste de destinations
+	 */
 	public List<Destination> getAllDestinations() {
 		Query query = em.createNamedQuery("allDestinations");
 		List<Destination> destinations = query.getResultList();
 		return destinations;
 	}
 
+	/**
+	 * Récupère la liste de toutes les destinations en base de données pour un
+	 * pays donné.
+	 * 
+	 * @param pays
+	 *            Le pays recherché
+	 * @return Une liste de destinations
+	 */
 	public List<Destination> getDestinationByPays(String pays) {
 		Query query = em.createNamedQuery("destinationByPays");
 		query.setParameter("p", pays);
@@ -125,12 +178,24 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 		return destinations;
 	}
 
+	/**
+	 * Récupère une destination en base de données.
+	 * 
+	 * @param id
+	 *            L'identifiant de la destination recherchée
+	 * @return Une destination
+	 */
 	@Override
 	public Destination getDestinationById(int id) {
 		Destination d = em.find(Destination.class, id);
 		return d;
 	}
 
+	/**
+	 * Récupère la liste de tous les pays uniques en base de données.
+	 * 
+	 * @return Une liste de pays
+	 */
 	@Override
 	public List<String> getAllUniquePays() {
 		Query query = em.createNamedQuery("allUniquePays");
@@ -138,11 +203,26 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 		return payss;
 	}
 
+	/**
+	 * Met à jour une destination
+	 * 
+	 * @param destination
+	 *            La destination que l'on souhaite mettre à jour
+	 * 
+	 */
 	@Override
 	public void update(Destination destination) throws DAOException {
 		saveOrUpdate(destination);
 	}
 
+	/**
+	 * Récupère la liste de dates de voyage pour une destination donnée.
+	 * 
+	 * @param destinationId
+	 *            L'identifiant de la destination
+	 * @return Une liste de dates de voyage
+	 */
+	@Override
 	public List<DatesVoyages> getDates(int destinationId) {
 		List<DatesVoyages> dates = null;
 		Query query = em.createQuery("SELECT d.dates FROM Destination d WHERE d.id = :id");
@@ -150,7 +230,5 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 		dates = query.getResultList();
 		return dates;
 	}
-
-
 
 }
