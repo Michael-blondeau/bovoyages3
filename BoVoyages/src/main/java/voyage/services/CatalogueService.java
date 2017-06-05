@@ -2,10 +2,13 @@ package voyage.services;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Inject;
+
+import org.primefaces.model.SortOrder;
 
 import voyage.dao.CatalogueDAO;
 import voyage.entities.DatesVoyages;
@@ -27,8 +30,6 @@ import voyage.exceptions.DAOException;
 @ManagedBean(name = "service")
 @SessionScoped
 public class CatalogueService implements ICatalogueService, Serializable {
-
-	private static final long serialVersionUID = -465153231869986884L;
 
 	@Inject
 	private CatalogueDAO catalogueDAO;
@@ -99,6 +100,15 @@ public class CatalogueService implements ICatalogueService, Serializable {
 		List<String> liste = catalogueDAO.getAllUniquePays();
 		return liste;
 	}
+	
+	/**
+	 * Affiche toutes les régions
+	 */
+	@Override
+	public List<String> getAllUniqueRegions() {
+		List<String> liste = catalogueDAO.getAllUniqueRegions();
+		return liste;
+	}
 
 	/**
 	 * Surcharge de la methode addDestination
@@ -156,5 +166,71 @@ public class CatalogueService implements ICatalogueService, Serializable {
 	public List<DatesVoyages> getAllDates(int id) {
 		Destination d = getDestinationById(id);
 		return d.getDates();
+	}
+
+	/**
+	 * Récupère la liste des destination par batch. La requête est filtrée par
+	 * pays, et triée par champ.
+	 * 
+	 * @param first
+	 *            L'indice du premier résultat
+	 * @param end
+	 *            L'indice du dernier résultat
+	 * @param sortField
+	 *            Le champ qui servira au tri
+	 * @param sortOrder
+	 *            L'ordre de tri (ascendant, descendant ou nul)
+	 * @param pays
+	 *            Le Pays recherché
+	 */
+	@Override
+	public List<Destination> getDestinations(int first, int end, String sortField, SortOrder sortOrder, String pays) {
+		if (sortOrder == SortOrder.ASCENDING){
+			return catalogueDAO.getDestinations(first, end, sortField, SortingOrder.ASCENDING, pays);
+		} else if (sortOrder == SortOrder.DESCENDING){
+			return catalogueDAO.getDestinations(first, end, sortField, SortingOrder.DESCENDING, pays);
+		} else {
+			return catalogueDAO.getDestinations(first, end, sortField, SortingOrder.UNSORTED, pays);
+		}
+	}
+	
+
+	/**
+	 * Récupère le nombre total de destinations.
+	 * 
+	 * @return Le nombre de résultats
+	 */
+	@Override
+	public long getAllDestinationCount() {
+		return catalogueDAO.getAllDestinationCount();
+	}
+
+	/**
+	 * Récupère le nombre total de destinations pour un pays donné.
+	 * 
+	 * @param pays
+	 *            Le pays recherché
+	 * @return Le nombre de résultats
+	 */
+	@Override
+	public long getDestinationByPaysCount(String pays) {
+		return catalogueDAO.getDestinationByPaysCount(pays);
+	}
+
+	@Override
+	public List<Destination> getDestinations(int first, int end, String sortField, SortOrder sortOrder,
+			Map<String, String> filters) {
+		if (sortOrder == SortOrder.ASCENDING){
+			return catalogueDAO.getDestinations(first, end, sortField, SortingOrder.ASCENDING, filters);
+		} else if (sortOrder == SortOrder.DESCENDING){
+			return catalogueDAO.getDestinations(first, end, sortField, SortingOrder.DESCENDING, filters);
+		} else {
+			return catalogueDAO.getDestinations(first, end, sortField, SortingOrder.UNSORTED, filters);
+		}
+	}
+
+	@Override
+	public long count(Map<String, String> filters) {
+		return catalogueDAO.count(filters);
 	}
 }

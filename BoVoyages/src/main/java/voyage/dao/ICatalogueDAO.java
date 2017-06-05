@@ -2,6 +2,7 @@ package voyage.dao;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
@@ -12,6 +13,7 @@ import javax.transaction.SystemException;
 import voyage.entities.DatesVoyages;
 import voyage.entities.Destination;
 import voyage.exceptions.DAOException;
+import voyage.services.SortingOrder;
 
 /**
  * Cette interface fournit les méthodes CRUD pour la sauvegarde des Destinations
@@ -149,4 +151,13 @@ public interface ICatalogueDAO {
 	 * @return Une liste de dates de voyage
 	 */
 	List<DatesVoyages> getDates(int destinationId);
+
+	List<Destination> getDestinations(int first, int end, String sortField, SortingOrder sortOrder, String pays);
+
+	List<String> getAllUniqueRegions();
+
+	long count(Map<String, String> filters);
+
+	List<Destination> getDestinations(int first, int end, String sortField, SortingOrder sortOrder,
+			Map<String, String> filters);
 }

@@ -3,6 +3,7 @@ package voyage.beans;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
@@ -10,6 +11,7 @@ import javax.inject.Named;
 
 import voyage.entities.Destination;
 import voyage.services.CatalogueService;
+import voyage.services.LazyDestinationDataModel;
 
 @Named("destination")
 @ConversationScoped
@@ -23,6 +25,8 @@ public class DestinationBean implements Serializable {
 	@Inject
 	Conversation conversation;
 
+	private LazyDestinationDataModel lazyModel;
+	
 	private int id;
 	private String[] continents = { "Afrique", "Amérique", "Amérique du Nord", "Amérique du Sud", "Amérique Centrale",
 			"Antartique", "Asie", "Europe", "Océanie" };
@@ -40,6 +44,11 @@ public class DestinationBean implements Serializable {
 		this.pays = pays;
 		this.region = region;
 		this.description = description;
+	}
+	
+	@PostConstruct
+	public void init(){
+		lazyModel = new LazyDestinationDataModel(service, pays);
 	}
 
 	public String add() {
@@ -129,6 +138,15 @@ public class DestinationBean implements Serializable {
 
 	public void setContinents(String[] continents) {
 		this.continents = continents;
+	}
+
+	public LazyDestinationDataModel getLazyModel() {
+		lazyModel.setPays(pays);
+		return lazyModel;
+	}
+
+	public void setLazyModel(LazyDestinationDataModel lazyModel) {
+		this.lazyModel = lazyModel;
 	}
 
 }

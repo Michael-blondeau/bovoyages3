@@ -2,6 +2,7 @@ package voyage.dao;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.annotation.Resource;
@@ -10,6 +11,10 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import javax.transaction.HeuristicMixedException;
 import javax.transaction.HeuristicRollbackException;
 import javax.transaction.NotSupportedException;
@@ -20,6 +25,7 @@ import javax.transaction.UserTransaction;
 import voyage.entities.DatesVoyages;
 import voyage.entities.Destination;
 import voyage.exceptions.DAOException;
+import voyage.services.SortingOrder;
 
 /**
  * Implémentation de l'interface {@link ICatalogueDAO}.
@@ -204,6 +210,18 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 	}
 
 	/**
+	 * Récupère la liste de toutes les régions uniques en base de données.
+	 * 
+	 * @return Une liste de régions
+	 */
+	@Override
+	public List<String> getAllUniqueRegions() {
+		Query query = em.createQuery("SELECT DISTINCT d.region FROM Destination d");
+		List<String> regions = query.getResultList();
+		return regions;
+	}
+
+	/**
 	 * Met à jour une destination
 	 * 
 	 * @param destination
@@ -229,6 +247,133 @@ public class CatalogueDAO implements ICatalogueDAO, Serializable {
 		query.setParameter("id", destinationId);
 		dates = query.getResultList();
 		return dates;
+	}
+
+	@Override
+	public List<Destination> getDestinations(int first, int end, String sortField, SortingOrder sortOrder,
+			String pays) {
+		LOG.info("> Appel du DAO");
+		// On récupère un criteria builder auprès de l'entity manager
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+
+		// On créée une requête
+		CriteriaQuery<Destination> cq = cb.createQuery(Destination.class);
+
+		// On récupère la racine de la requête (représente l'entité que l'on
+		// souhaite interroger)
+		Root<Destination> d = cq.from(Destination.class);
+
+		// On recherche les destinations où le pays est égal à ":pays"
+		// if(pays != null || pays != ""){
+		// cq.where(cb.equal(d.get("pays"), cb.parameter(String.class,
+		// "pays")));
+		// }
+
+		// Si le sortField est précisé, on tri par ordre ascendant ou descendant
+		// selon ce champ
+		if (sortField != null && sortOrder != SortingOrder.UNSORTED) {
+			if (sortOrder == SortingOrder.ASCENDING) {
+				cq.orderBy(cb.asc(d.get(sortField)));
+			} else {
+				cq.orderBy(cb.desc(d.get(sortField)));
+			}
+		}
+
+		LOG.info("first : " + first);
+		LOG.info("end : " + end);
+		LOG.info("sortField : " + sortField);
+		LOG.info("sortOrder : " + sortOrder);
+		LOG.info("pays : " + pays);
+
+		// On créée la requête, et on indique les paramètres
+		Query query = em.createQuery(cq);
+		query.setFirstResult(first);
+		query.setMaxResults(end - first);
+		// if(pays != null || pays != ""){
+		// query.setParameter("pays", pays);
+		// }
+
+		// On récupère et on renvoie le résultat
+		List<Destination> destinations = query.getResultList();
+		LOG.info("Fin de la requête : destinations.size() = " + destinations.size());
+		return destinations;
+	}
+	
+	@Override
+	public List<Destination> getDestinations(int first, int end, String sortField, SortingOrder sortOrder,
+			Map<String, String> filters) {
+		LOG.info("> Appel du DAO");
+		// On récupère un criteria builder auprès de l'entity manager
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		// On créée une requête
+		CriteriaQuery<Destination> cq = cb.createQuery(Destination.class);
+		// On récupère la racine de la requête (représente l'entité que l'on
+		// souhaite interroger)
+		Root<Destination> d = cq.from(Destination.class);
+
+		// On affine la requête selon les filtres
+		if (!filters.isEmpty()){
+			int taille = filters.size();
+			LOG.info("taille du map de filtres : " + taille);
+			cq.where(this.getFilterConditions(cb, d, filters));
+		}
+
+		// Si le sortField est précisé, on tri par ordre ascendant ou descendant
+		// selon ce champ
+		if (sortField != null && sortOrder != SortingOrder.UNSORTED) {
+			if (sortOrder == SortingOrder.ASCENDING) {
+				cq.orderBy(cb.asc(d.get(sortField)));
+			} else {
+				cq.orderBy(cb.desc(d.get(sortField)));
+			}
+		}
+
+		// On créée la requête, et on indique les paramètres
+		Query query = em.createQuery(cq);
+		query.setFirstResult(first);
+		query.setMaxResults(end - first);
+
+		// On récupère et on renvoie le résultat
+		List<Destination> destinations = query.getResultList();
+		LOG.info("Fin de la requête : destinations.size() = " + destinations.size());
+		return destinations;
+	}
+	
+	private Predicate getFilterConditions(CriteriaBuilder cb, Root<Destination> d, Map<String, String> filters){
+		Predicate filterCondition = cb.conjunction();
+		for (Map.Entry<String, String> filter : filters.entrySet()) {
+			String value = filter.getValue() + "%";
+			if (!filter.getValue().equals("")) {
+				filterCondition = cb.and(filterCondition, cb.like(d.get(filter.getKey()), value));
+			}
+		}
+		return filterCondition;
+	}
+	
+	@Override
+	public long count(Map<String, String> filters) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+		Root<Destination> d = cq.from(Destination.class);
+		cq.where(this.getFilterConditions(cb, d, filters));
+		cq.select(cb.count(d));
+		Query query = em.createQuery(cq);
+		return (long) query.getSingleResult();
+	}
+	
+	public long getAllDestinationCount() {
+		Query query = em.createQuery("SELECT COUNT(d.id) FROM Destination d");
+		long result = (long) query.getSingleResult();
+		LOG.info("getAllDestinationCount = " + result);
+		return result;
+	}
+
+	public long getDestinationByPaysCount(String pays) {
+		Query query = em.createQuery("SELECT COUNT(d.id) FROM Destination d WHERE d.pays=:pays");
+		query.setParameter("pays", pays);
+		long result = (long) query.getSingleResult();
+		LOG.info("getDestinationByPaysCount = " + result);
+		return result;
 	}
 
 }

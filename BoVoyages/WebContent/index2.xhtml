@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Gestion des destinations</title>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+
+		<ui:define name="content">
+			<f:view>
+				<f:event listener="#{destination.stopConversation}"
+					type="preRenderView" />
+				<f:event listener="#{date.stopConversation}" type="preRenderView" />
+
+				<p:panel id="destinations">
+
+					<h:form>
+						<p:dataTable var="dest" value="#{lazyView.lazyModel}"
+							emptyMessage="Aucun résultat trouvé"
+							clientCache="true"
+							sortBy="#{dest.region}"
+							paginator="true" rows="10" paginatorPosition="bottom"
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="5,10,20"
+							id="destTable"
+							widgetvar="destTable"
+							lazy="true"
+							reflow="true">
+							
+							<f:facet name="header">
+								<p:outputPanel>
+									<h:outputText value="Liste des destinations"/>
+								</p:outputPanel>
+							</f:facet>
+
+							<p:column style="width:16px">
+								<p:rowToggler />
+							</p:column>
+
+							<p:column headerText="Région" filterBy="#{dest.region}"
+								filterMatchMode="exact" sortBy="#{dest.region}">
+								<f:facet name="filter">
+					                <p:selectOneMenu scrollHeight="150">
+						                <f:selectItem itemLabel="--" itemValue="#{null}" noSelectionOption="true" />
+					                    <f:selectItems value="#{service.allUniqueRegions}" />
+					                </p:selectOneMenu>
+					            </f:facet>
+								<h:outputText value="#{dest.region}" />
+							</p:column>
+
+							<p:column>
+									<p:menuButton value="Options">
+										<p:menuitem value="Modifier" icon="ui-icon-arrowrefresh-1-w"
+											action="#{destination.modifier(dest.id)}" ajax="false" />
+										<p:menuitem value="Supprimer" icon="ui-icon-trash"
+											action="#{service.deleteDestination(dest.id)}"
+											update="destinations" />
+										<p:separator />
+										<p:menuitem value="Consulter les dates" icon="ui-icon-extlink"
+											action="#{date.viewDates(dest.id)}" ajax="false" />
+										<p:menuitem value="Ajouter une date" icon="ui-icon-extlink"
+											action="#{date.addDate(dest.id)}" ajax="false" />
+									</p:menuButton>
+							</p:column>
+
+							<p:rowExpansion>
+								<p:outputPanel>
+									<!-- Rajouter un panelgrid/view avec l'image de la destination -->
+									<h:outputText value="#{dest.description}" />
+								</p:outputPanel>
+							</p:rowExpansion>
+							
+							<f:facet name="footer">								
+									<p:commandButton ajax="false" icon="ui-icon-plus"
+										value="Ajouter une destination" style="margin:0"
+										action="creationDestination?faces-redirect=true"/>
+							</f:facet>
+
+						</p:dataTable>
+					</h:form>
+
+				</p:panel>
+
+			</f:view>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>
