@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Liste des destinations</title>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+
+		<ui:define name="content">
+			<f:view>
+			<f:event listener="#{destination.stopConversation}" type="preRenderView"></f:event>
+			<f:event listener="#{date.stopConversation}" type="preRenderView"></f:event>
+				<p:panel header="Liste des destinations" id="destinations">
+					<h:form>
+
+						<c:forEach items="#{service.allDestinations}" var="d">						
+							<div class="ui-g">
+								<div class="ui-g-9">
+									<h:outputText styleClass="destinationTitre" value="#{d.region}" />
+								</div>
+								<div class="ui-g-3" style="text-align: right;">
+									<p:menuButton value="Options" >
+										<p:menuitem value="Modifier" icon="ui-icon-arrowrefresh-1-w" action="#{destination.modifier(d.id)}" ajax="false"/>
+										<p:menuitem value="Supprimer" icon="ui-icon-trash" action="#{service.deleteDestination(d.id)}" update="destinations"/>
+										<p:separator />
+										<p:menuitem value="Consulter les dates" icon="ui-icon-extlink" action="#{fullDestination.viewDates(d.id)}" ajax="false"/>
+										<p:menuitem value="Ajouter une date" icon="ui-icon-extlink" action="#{date.addDate(d.id)}" ajax="false"/>
+									</p:menuButton>
+								</div>
+								<div class="ui-g-12">
+									<h:outputText value="#{d.description}" />
+								</div>
+							</div>
+						</c:forEach>
+
+					</h:form>
+				</p:panel>
+				
+				<p:button value="Retour" onclick="window.history.back();"></p:button>
+			</f:view>
+		</ui:define>
+
+	</ui:composition>
+</h:body>
+</html>

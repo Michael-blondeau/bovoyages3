@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Gestion des destinations</title>
+</h:head>
+<h:body>
+	<ui:composition template="/template/layout.xhtml">
+	
+		<ui:define name="content">
+			<f:view>
+			<f:event listener="#{destination.stopConversation}" type="preRenderView"></f:event>
+			
+				<p:panel header="Gestion des destinations" >
+					<h:form>
+						<h:panelGrid columns="3" cellpadding="10">
+							<h:outputText value="Gérer toutes les destinations" />
+							<h:outputText value=" " />
+							<p:commandButton value="Gérer" action="allDestinations?faces-redirect=true"/>
+						</h:panelGrid>
+					</h:form>
+					
+					<h:form>
+						<h:panelGrid columns="3" cellpadding="10">
+							<h:outputText value="Gérer les destinations par pays" />
+							<p:selectOneMenu value="#{destination.pays}" required="true">
+								<f:selectItem itemLabel="Sélectionner un pays..." itemValue=""/>
+								<f:selectItems value="#{service.allUniquePays}" var="pays" itemLabel="#{pays}" itemValue="#{pays}" />
+							</p:selectOneMenu>
+							<p:commandButton value="Gérer" action="#{destination.getDestinationsByPays(destination.pays)}"/>
+							</h:panelGrid>
+					</h:form>
+					
+					<h:form>
+						<h:panelGrid columns="3" cellpadding="10">
+							<h:outputText value="Créer une destination" />
+							<h:outputText value=" " />
+							<p:commandButton value="Créer" action="creationDestination?faces-redirect=true" />
+						</h:panelGrid>
+					</h:form>
+				</p:panel>
+				
+			</f:view>
+		</ui:define>
+		
+	</ui:composition>
+</h:body>
+</html>

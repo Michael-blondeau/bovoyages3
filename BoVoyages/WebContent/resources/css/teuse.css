@@ -1,0 +1,60 @@
+@CHARSET "ISO-8859-1";
+
+body{
+	margin-left: 5%;
+    margin-right: 5%;
+	background-color: rgb(230, 247, 255);
+}
+
+header{
+	background: linear-gradient(to right, rgb(0, 107, 179), rgb(230, 247, 255));
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    height: 150px;
+    padding-top: 20px;
+}
+
+.t-align-r{
+	text-align: right;
+}
+
+.pull-r{
+	   float: right;
+}
+.identite{
+	font-size: 20px;
+	font-weight: bold;	
+}
+
+.ui-panel{
+	width: 70%;
+    margin: auto;
+}
+
+.panel-body{
+	width: 80%;
+    margin: auto;
+}
+
+.panel-body > .row{
+	margin-bottom: 1em;
+}
+
+
+.form-group{
+	width: 50% ! important;
+}
+
+fieldset{
+	margin: 20px
+}
+
+.destinationTitre {
+    display: inline;
+    font-size: 1.17em;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
